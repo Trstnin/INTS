@@ -1,30 +1,20 @@
 # Into Startups - Backend API
 
-The backend implementation for the Into Startups platform built with Node.js, Express, and MongoDB.
+A robust backend service for the Into Startups platform, providing authentication, user management, and startup-related features.
 
-## 🛠️ Tech Stack
+## 🚀 Quick Start
 
-- Node.js
-- Express.js
-- MongoDB with Mongoose
-- JWT Authentication
-- bcrypt for password hashing
-- Express Validator
-- Cookie Parser
-- CORS
-
-## 🚀 Getting Started
-
-1. Install dependencies:
+1. Clone and install dependencies:
 ```bash
+git clone https://github.com/Trstnin/INTS.git
+cd INTS/Backend
 npm install
 ```
 
-2. Create .env file with required variables:
-```env
-PORT=3000
-MONGODB_URI=your_mongodb_connection_string
-JWT_SECRET=your_jwt_secret
+2. Configure environment:
+```bash
+cp .env.example .env
+# Edit .env with your credentials
 ```
 
 3. Start development server:
@@ -32,45 +22,108 @@ JWT_SECRET=your_jwt_secret
 npm run dev
 ```
 
-## 📡 API Endpoints
+## 🛠️ Tech Stack
 
-### Authentication Routes
-Base URL: `/api/v1/auth`
+- **Runtime**: Node.js
+- **Framework**: Express.js
+- **Database**: MongoDB with Mongoose
+- **Authentication**: JWT, bcrypt
+- **Validation**: Express Validator
+- **Middleware**: Cookie Parser, CORS
+- **Development**: Nodemon
 
-| Method | Endpoint | Description | Request Body | Response |
-|--------|----------|-------------|--------------|-----------|
-| POST | `/signup` | Register new user | `{ firstName, lastName, email, password }` | `{ message, user }` |
-| POST | `/login` | Login user | `{ email, password }` | `{ message, token }` |
-| POST | `/logout` | Logout user | - | `{ message }` |
-| GET | `/profile` | Get user profile | - | `{ user }` |
+## 📡 API Documentation
 
-### User Routes
-Base URL: `/api/v1/users`
-
-| Method | Endpoint | Description | Request Body | Response |
-|--------|----------|-------------|--------------|-----------|
-| GET | `/` | Get all users | - | `{ users }` |
-| GET | `/:id` | Get user by ID | - | `{ user }` |
-| PUT | `/:id` | Update user | `{ firstName, lastName, email }` | `{ message, user }` |
-| DELETE | `/:id` | Delete user | - | `{ message }` |
-
-## 🔒 Authentication
-
-The API uses JWT tokens for authentication. Include the token in the Authorization header:
-
+### Base URL
 ```
+http://localhost:3000/api/v1
+```
+
+### Authentication Endpoints
+
+#### Register User
+```http
+POST /auth/signup
+Content-Type: application/json
+
+{
+  "firstName": "string",
+  "lastName": "string",
+  "email": "string",
+  "password": "string"
+}
+
+Response: 201 Created
+{
+  "message": "User created successfully",
+  "user": {
+    "id": "string",
+    "firstName": "string",
+    "lastName": "string",
+    "email": "string"
+  }
+}
+```
+
+#### Login User
+```http
+POST /auth/login
+Content-Type: application/json
+
+{
+  "email": "string",
+  "password": "string"
+}
+
+Response: 200 OK
+{
+  "message": "Login successful",
+  "token": "string"
+}
+```
+
+#### Get User Profile
+```http
+GET /auth/profile
 Authorization: Bearer <token>
+
+Response: 200 OK
+{
+  "user": {
+    "id": "string",
+    "firstName": "string",
+    "lastName": "string",
+    "email": "string"
+  }
+}
 ```
 
-## 🧪 Error Handling
+### Error Responses
 
-The API returns error responses in the following format:
-
-```json
+```http
+400 Bad Request
 {
   "status": "error",
-  "message": "Error message description",
-  "code": 400
+  "message": "Validation error",
+  "errors": [...]
+}
+
+401 Unauthorized
+{
+  "status": "error",
+  "message": "Invalid credentials"
+}
+
+404 Not Found
+{
+  "status": "error",
+  "message": "Resource not found"
+}
+
+500 Internal Server Error
+{
+  "status": "error",
+  "message": "Internal server error"
 }
 ```
 
@@ -78,63 +131,108 @@ The API returns error responses in the following format:
 
 ```
 Backend/
-├── src/
-│   ├── controllers/
-│   │   └── userController.js
-│   ├── models/
-│   │   └── userModel.js
-│   ├── routes/
-│   │   ├── appRouter.js
-│   │   └── authRouter.js
-│   ├── db/
-│   │   └── connectDb.js
-│   ├── middleware/
-│   │   └── auth.js
-│   └── app.js
-├── server.js
-└── package.json
+├── src/                  # Source files
+│   ├── controllers/      # Route controllers
+│   ├── models/          # Database models
+│   ├── routes/          # API routes
+│   ├── middleware/      # Custom middleware
+│   ├── utils/           # Utility functions
+│   ├── config/          # Configuration files
+│   ├── db/              # Database connection
+│   └── app.js          # Express app setup
+├── tests/               # Test files
+├── server.js           # Server entry point
+└── package.json        # Project manifest
 ```
 
-## 🛡️ Security
+## 🔒 Security Features
 
-- Passwords are hashed using bcrypt
-- JWT tokens for session management
-- CORS enabled for specific origins
-- Request validation using express-validator
-- Protected routes using authentication middleware
+- Password hashing with bcrypt
+- JWT-based authentication
+- Request validation
+- CORS protection
+- Rate limiting
+- Secure HTTP headers
+- Input sanitization
 
 ## 🔧 Development
 
-1. Use nodemon for development:
-```bash
-npm run dev
-```
+### Prerequisites
+- Node.js (v18+)
+- MongoDB
+- npm/yarn
 
-2. Build for production:
-```bash
-npm run build
-```
-
-3. Start production server:
-```bash
-npm start
-```
-
-## 📝 Environment Variables
-
-Required environment variables:
-
+### Environment Variables
 ```env
 PORT=3000                    # Server port
 MONGODB_URI=<uri>           # MongoDB connection string
-JWT_SECRET=<secret>         # JWT signing secret
-NODE_ENV=development        # Environment (development/production)
+JWT_SECRET=<secret>         # JWT token secret
+NODE_ENV=development        # Environment
+CORS_ORIGIN=*              # CORS allowed origins
 ```
 
-## 👥 Contributing
+### Commands
+```bash
+# Start development server
+npm run dev
+
+# Start production server
+npm start
+
+# Run tests
+npm test
+
+# Check linting
+npm run lint
+
+# Fix linting issues
+npm run lint:fix
+```
+
+## 🧪 Testing
+
+```bash
+# Run all tests
+npm test
+
+# Run specific test file
+npm test -- users.test.js
+
+# Run with coverage
+npm run test:coverage
+```
+
+## 📈 Monitoring
+
+The API includes basic monitoring endpoints:
+
+```http
+GET /health
+Response: 200 OK
+{
+  "status": "healthy",
+  "timestamp": "ISO-8601 date"
+}
+```
+
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch
-3. Commit your changes
+2. Create a feature branch
+3. Commit changes
 4. Push to the branch
-5. Create a pull request
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 💡 Support
+
+For support, email dev@intostartups.com or join our Slack channel.
+
+## 📚 Additional Resources
+
+- [API Documentation](docs/api.md)
+- [Contribution Guide](CONTRIBUTING.md)
+- [Security Policy](SECURITY.md)

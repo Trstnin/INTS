@@ -1,9 +1,8 @@
 import express from 'express';
+import { register } from '../controllers/userController.js';
 
 const authRouter = express.Router();
 
-authRouter.get('/', (req,res) =>{
- res.send("api is working")
-})
+authRouter.post('/register',register )
 
 export default authRouter

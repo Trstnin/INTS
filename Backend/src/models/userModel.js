@@ -9,7 +9,7 @@ const userSchema = mongoose.Schema({
         type:String,
         required:true
     },
-    email:{
+    Email:{
         type:String,
         required:true,
         unique:true
@@ -17,6 +17,10 @@ const userSchema = mongoose.Schema({
     Password:{
         type:String,
         required:true
+    },
+    avatarUrl:{
+        type:String,
+        default:'https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-1024.png'
     }
 })
 
