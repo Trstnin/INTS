@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import Headerforlogin from "../components/Headersforlogin";
 import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+ 
+  const navigate = useNavigate()
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -24,6 +28,7 @@ const Login = () => {
     e.preventDefault();
     // Add your form submission logic here
     console.log("Form submitted:", formData);
+    navigate('/Home')
   };
 
   return (
@@ -229,267 +234,12 @@ const Login = () => {
                       peer-not-placeholder-shown:-translate-y-1.5
                       peer-not-placeholder-shown:text-gray-500"
                           >
-                            New password
+                             Password
                           </label>
                         </div>
                         {/* End Floating Input */}
 
-                        <div
-                          id="hs-strong-password-popover"
-                          className="hidden absolute z-10 w-full bg-gray-100 rounded-lg p-4"
-                        >
-                          <div
-                            id="hs-strong-password-in-popover"
-                            data-hs-strong-password='{
-                        "target": "#hs-hero-signup-form-floating-input-new-password",
-                        "hints": "#hs-strong-password-popover",
-                        "stripClasses": "hs-strong-password:opacity-100 hs-strong-password-accepted:bg-teal-500 h-2 flex-auto rounded-full bg-blue-500 opacity-50 mx-1",
-                        "mode": "popover"
-                      }'
-                            className="flex mt-2 -mx-1"
-                          ></div>
-
-                          <h4 className="mt-3 text-sm font-semibold text-gray-800">
-                            Your password must contain:
-                          </h4>
-
-                          <ul className="space-y-1 text-sm text-gray-500">
-                            <li
-                              data-hs-strong-password-hints-rule-text="min-length"
-                              className="hs-strong-password-active:text-teal-500 flex items-center gap-x-2"
-                            >
-                              <span className="hidden" data-check>
-                                <svg
-                                  className="shrink-0 size-4"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <polyline points="20 6 9 17 4 12" />
-                                </svg>
-                              </span>
-                              <span data-uncheck>
-                                <svg
-                                  className="shrink-0 size-4"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <path d="M18 6 6 18" />
-                                  <path d="m6 6 12 12" />
-                                </svg>
-                              </span>
-                              Minimum number of characters is 6.
-                            </li>
-                            <li
-                              data-hs-strong-password-hints-rule-text="lowercase"
-                              className="hs-strong-password-active:text-teal-500 flex items-center gap-x-2"
-                            >
-                              <span className="hidden" data-check>
-                                <svg
-                                  className="shrink-0 size-4"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <polyline points="20 6 9 17 4 12" />
-                                </svg>
-                              </span>
-                              <span data-uncheck>
-                                <svg
-                                  className="shrink-0 size-4"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <path d="M18 6 6 18" />
-                                  <path d="m6 6 12 12" />
-                                </svg>
-                              </span>
-                              Should contain lowercase.
-                            </li>
-                            <li
-                              data-hs-strong-password-hints-rule-text="uppercase"
-                              className="hs-strong-password-active:text-teal-500 flex items-center gap-x-2"
-                            >
-                              <span className="hidden" data-check>
-                                <svg
-                                  className="shrink-0 size-4"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <polyline points="20 6 9 17 4 12" />
-                                </svg>
-                              </span>
-                              <span data-uncheck>
-                                <svg
-                                  className="shrink-0 size-4"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <path d="M18 6 6 18" />
-                                  <path d="m6 6 12 12" />
-                                </svg>
-                              </span>
-                              Should contain uppercase.
-                            </li>
-                            <li
-                              data-hs-strong-password-hints-rule-text="numbers"
-                              className="hs-strong-password-active:text-teal-500 flex items-center gap-x-2"
-                            >
-                              <span className="hidden" data-check>
-                                <svg
-                                  className="shrink-0 size-4"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <polyline points="20 6 9 17 4 12" />
-                                </svg>
-                              </span>
-                              <span data-uncheck>
-                                <svg
-                                  className="shrink-0 size-4"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <path d="M18 6 6 18" />
-                                  <path d="m6 6 12 12" />
-                                </svg>
-                              </span>
-                              Should contain numbers.
-                            </li>
-                            <li
-                              data-hs-strong-password-hints-rule-text="special-characters"
-                              className="hs-strong-password-active:text-teal-500 flex items-center gap-x-2"
-                            >
-                              <span className="hidden" data-check>
-                                <svg
-                                  className="shrink-0 size-4"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <polyline points="20 6 9 17 4 12" />
-                                </svg>
-                              </span>
-                              <span data-uncheck>
-                                <svg
-                                  className="shrink-0 size-4"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  width="24"
-                                  height="24"
-                                  viewBox="0 0 24 24"
-                                  fill="none"
-                                  stroke="currentColor"
-                                  strokeWidth="2"
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                >
-                                  <path d="M18 6 6 18" />
-                                  <path d="m6 6 12 12" />
-                                </svg>
-                              </span>
-                              Should contain special characters.
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-                      {/* End Input Group */}
-
-                      {/* Input Group */}
-                      <div className="col-span-full">
-                        {/* Floating Input */}
-                        <div className="relative">
-                          <input
-                            required
-                            type="password"
-                            name="currentPassword"
-                            value={formData.currentPassword}
-                            onChange={handleChange}
-                            id="hs-hero-signup-form-floating-input-current-password"
-                            className="peer p-3 sm:p-4 block w-full border-gray-200 rounded-lg sm:text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none
-                    focus:pt-6
-                    focus:pb-2
-                    not-placeholder-shown:pt-6
-                    not-placeholder-shown:pb-2
-                    autofill:pt-6
-                    autofill:pb-2"
-                            placeholder="********"
-                          />
-                          <label
-                            htmlFor="hs-hero-signup-form-floating-input-current-password"
-                            className="absolute top-0 start-0 p-3 sm:p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent origin-[0_0] peer-disabled:opacity-50 peer-disabled:pointer-events-none
-                      peer-focus:scale-90
-                      peer-focus:translate-x-0.5
-                      peer-focus:-translate-y-1.5
-                      peer-focus:text-gray-500
-                      peer-not-placeholder-shown:scale-90
-                      peer-not-placeholder-shown:translate-x-0.5
-                      peer-not-placeholder-shown:-translate-y-1.5
-                      peer-not-placeholder-shown:text-gray-500"
-                          >
-                            Current password
-                          </label>
-                        </div>
-                        {/* End Floating Input */}
+                        
                       </div>
                       {/* End Input Group */}
                     </div>
@@ -540,7 +290,7 @@ const Login = () => {
       </div>
 
       {/* Footer */}
-      <footer className="  py-4 mt-auto">
+      <footer className=" py-4 mt-auto">
        <Footer />
       </footer>
     </div>
