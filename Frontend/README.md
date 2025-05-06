@@ -8,6 +8,10 @@ The frontend implementation of the Into Startups platform built with React and T
 - Tailwind CSS
 - React Router DOM
 - Preline UI Components
+- Vite
+- Jest & React Testing Library
+- ESLint & Prettier
+- Axios
 
 ## 📁 Project Structure
 
@@ -15,14 +19,18 @@ The frontend implementation of the Into Startups platform built with React and T
 Frontend/
 ├── src/
 │   ├── components/
-│   │   └── Header.jsx          # Main navigation component
+│   │   ├── Header.jsx          # Main navigation component
+│   │   ├── common/            # Reusable components
+│   │   └── layouts/           # Layout components
 │   ├── pages/
-│   │   └── Login/             # Login page components
+│   │   ├── Login/             # Login page components
+│   │   └── Dashboard/         # Dashboard components
 │   ├── assets/                # Images and static assets
 │   ├── contexts/              # React context providers
-│   ├── hooks/                 # Custom React hooks
-│   ├── services/              # API service layers
-│   └── utils/                 # Utility functions
+│   ├── hooks/                # Custom React hooks
+│   ├── services/             # API service layers
+│   ├── utils/               # Utility functions
+│   └── tests/              # Test files
 └── public/
 ```
 
@@ -43,6 +51,18 @@ Frontend/
    npm run build
    ```
 
+## 🧪 Testing
+
+1. Run unit tests:
+   ```bash
+   npm test
+   ```
+
+2. Run tests with coverage:
+   ```bash
+   npm run test:coverage
+   ```
+
 ## 🎨 Features
 
 ### Components
@@ -51,6 +71,12 @@ Frontend/
   - Glass morphism design
   - Mobile-friendly menu
   - Authentication links
+- **Common Components**
+  - Button
+  - Input
+  - Card
+  - Modal
+  - Loading Spinner
 
 ### Pages
 - Home
@@ -58,6 +84,8 @@ Frontend/
 - Reviews
 - Learn
 - Login/Register
+- Dashboard
+- Profile
 
 ## 📝 Development Guidelines
 
@@ -66,11 +94,25 @@ Frontend/
 - Implement responsive design
 - Maintain clean code practices
 
+## 📤 Deployment
+
+1. Build the project:
+   ```bash
+   npm run build
+   ```
+
+2. Preview production build:
+   ```bash
+   npm run preview
+   ```
+
 ## 🔗 Environment Setup
 
 Create a `.env` file in the root directory:
 ```
 VITE_API_URL=your_api_url_here
+VITE_GOOGLE_ANALYTICS_ID=your_ga_id_here
+VITE_APP_ENV=development
 ```
 
 ## 👥 Contributing
@@ -80,3 +122,16 @@ VITE_API_URL=your_api_url_here
 3. Commit your changes
 4. Push to the branch
 5. Create a pull request
+
+## 📜 Scripts
+
+```json
+{
+  "dev": "Start development server",
+  "build": "Build for production",
+  "preview": "Preview production build",
+  "test": "Run tests",
+  "lint": "Run ESLint",
+  "format": "Format code with Prettier"
+}
+```
