@@ -1,12 +1,82 @@
-# React + Vite
+# Into Startups - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The frontend implementation of the Into Startups platform built with React and Tailwind CSS.
 
-Currently, two official plugins are available:
+## 🛠️ Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React.js
+- Tailwind CSS
+- React Router DOM
+- Preline UI Components
 
-## Expanding the ESLint configuration
+## 📁 Project Structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+Frontend/
+├── src/
+│   ├── components/
+│   │   └── Header.jsx          # Main navigation component
+│   ├── pages/
+│   │   └── Login/             # Login page components
+│   ├── assets/                # Images and static assets
+│   ├── contexts/              # React context providers
+│   ├── hooks/                 # Custom React hooks
+│   ├── services/              # API service layers
+│   └── utils/                 # Utility functions
+└── public/
+```
+
+## 🚀 Getting Started
+
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+2. Start development server:
+   ```bash
+   npm run dev
+   ```
+
+3. Build for production:
+   ```bash
+   npm run build
+   ```
+
+## 🎨 Features
+
+### Components
+- **Header**
+  - Responsive navigation
+  - Glass morphism design
+  - Mobile-friendly menu
+  - Authentication links
+
+### Pages
+- Home
+- Stories
+- Reviews
+- Learn
+- Login/Register
+
+## 📝 Development Guidelines
+
+- Use Tailwind CSS for styling
+- Follow component-based architecture
+- Implement responsive design
+- Maintain clean code practices
+
+## 🔗 Environment Setup
+
+Create a `.env` file in the root directory:
+```
+VITE_API_URL=your_api_url_here
+```
+
+## 👥 Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a pull request
