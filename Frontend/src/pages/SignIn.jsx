@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Headerforlogin from "../components/Headersforlogin";
 import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -20,10 +21,26 @@ const SignIn = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  
+
+  const handleSubmit = async(e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+
+   const userData = {
+    Email:formData.email,
+    Password:formData.password
+   }
+
+   const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/login`,userData)
+  
+
+   
+  if(response.status == 200){
+    const data = response.data;
+    localStorage.setItem('token', data.token)
     navigate("/Home");
+  }
+
   };
 
   return (
@@ -44,9 +61,11 @@ const SignIn = () => {
 
                   <div className="mt-5">
                     <button
+                    onClick={() => window.location.href = `${import.meta.env.VITE_BASE_URL}/auth/google`}
                       type="button"
-                      className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50"
-                    >
+                      className="w-full py-3 px-4 inline-flex cursor-pointer justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50"
+                      
+                   >
                       <svg
                         className="w-4 h-auto"
                         width="46"

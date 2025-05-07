@@ -1,137 +1,119 @@
-# Into Startups - Frontend
+# Into Startups - Frontend 🎨
 
-The frontend implementation of the Into Startups platform built with React and Tailwind CSS.
+Modern React-based frontend for the Into Startups platform featuring OAuth2 authentication and glass morphism design.
+
+## 🎯 Features
+
+- Google OAuth2 Authentication
+- Glass Morphism UI Design
+- Responsive Layout
+- Protected Routes
+- Form Validation
+- JWT Token Management
+- Smooth Page Transitions
 
 ## 🛠️ Tech Stack
 
-- React.js
-- Tailwind CSS
-- React Router DOM
-- Preline UI Components
-- Vite
-- Jest & React Testing Library
-- ESLint & Prettier
+- React 19
+- Vite 6
+- Tailwind CSS 4
+- React Router DOM 7
 - Axios
+- React Icons
 
 ## 📁 Project Structure
 
 ```
-Frontend/
-├── src/
-│   ├── components/
-│   │   ├── Header.jsx          # Main navigation component
-│   │   ├── common/            # Reusable components
-│   │   └── layouts/           # Layout components
-│   ├── pages/
-│   │   ├── Login/             # Login page components
-│   │   └── Dashboard/         # Dashboard components
-│   ├── assets/                # Images and static assets
-│   ├── contexts/              # React context providers
-│   ├── hooks/                # Custom React hooks
-│   ├── services/             # API service layers
-│   ├── utils/               # Utility functions
-│   └── tests/              # Test files
-└── public/
+src/
+├── components/
+│   ├── Header.jsx         # Main navigation
+│   ├── Footer.jsx         # Site footer
+│   ├── Feedback.jsx       # User testimonials
+│   └── HeroSection.jsx    # Landing page hero
+├── pages/
+│   ├── Landing.jsx        # Home page
+│   ├── Login.jsx          # Registration page
+│   ├── SignIn.jsx         # Login page
+│   └── OauthSuccess.jsx   # OAuth callback handler
+├── utils/
+│   └── ProtectedRoutes.jsx # Auth route wrapper
+├── contexts/
+│   └── userContext.jsx    # User state management
+├── App.jsx               # Main app component
+└── main.jsx             # Entry point
 ```
 
-## 🚀 Getting Started
+## ⚡ Quick Start
 
 1. Install dependencies:
-   ```bash
-   npm install
-   ```
-
-2. Start development server:
-   ```bash
-   npm run dev
-   ```
-
-3. Build for production:
-   ```bash
-   npm run build
-   ```
-
-## 🧪 Testing
-
-1. Run unit tests:
-   ```bash
-   npm test
-   ```
-
-2. Run tests with coverage:
-   ```bash
-   npm run test:coverage
-   ```
-
-## 🎨 Features
-
-### Components
-- **Header**
-  - Responsive navigation
-  - Glass morphism design
-  - Mobile-friendly menu
-  - Authentication links
-- **Common Components**
-  - Button
-  - Input
-  - Card
-  - Modal
-  - Loading Spinner
-
-### Pages
-- Home
-- Stories
-- Reviews
-- Learn
-- Login/Register
-- Dashboard
-- Profile
-
-## 📝 Development Guidelines
-
-- Use Tailwind CSS for styling
-- Follow component-based architecture
-- Implement responsive design
-- Maintain clean code practices
-
-## 📤 Deployment
-
-1. Build the project:
-   ```bash
-   npm run build
-   ```
-
-2. Preview production build:
-   ```bash
-   npm run preview
-   ```
-
-## 🔗 Environment Setup
-
-Create a `.env` file in the root directory:
-```
-VITE_API_URL=your_api_url_here
-VITE_GOOGLE_ANALYTICS_ID=your_ga_id_here
-VITE_APP_ENV=development
+```bash
+npm install
 ```
 
-## 👥 Contributing
+2. Configure environment:
+```bash
+# .env
+VITE_BASE_URL=http://localhost:3000/api/v1
+```
+
+3. Start development server:
+```bash
+npm run dev
+```
+
+## 🔒 Authentication Flow
+
+1. Traditional Login:
+   - Email/Password validation
+   - JWT token storage
+   - Protected route redirection
+
+2. Google OAuth:
+   - Google sign-in button
+   - OAuth callback handling
+   - Automatic profile creation
+
+## 🎨 UI Components
+
+- Glass Morphism Headers
+- Responsive Navigation
+- Animated Feedback Carousel
+- Form Components with Validation
+- Loading States
+- Error Handling UI
+
+## 📚 Available Scripts
+
+```bash
+npm run dev      # Start development server
+npm run build    # Build for production
+npm run preview  # Preview production build
+npm run lint     # Run ESLint
+```
+
+## 🔧 Configuration
+
+### Vite Config
+- React plugin
+- Tailwind CSS integration
+- Environment variable handling
+
+### ESLint
+- React hooks rules
+- React refresh
+- Modern JavaScript features
+
+## 📱 Responsive Design
+
+- Mobile-first approach
+- Tablet optimization
+- Desktop layouts
+- Cross-browser compatibility
+
+## 🤝 Contributing
 
 1. Fork the repository
 2. Create your feature branch
 3. Commit your changes
 4. Push to the branch
-5. Create a pull request
-
-## 📜 Scripts
-
-```json
-{
-  "dev": "Start development server",
-  "build": "Build for production",
-  "preview": "Preview production build",
-  "test": "Run tests",
-  "lint": "Run ESLint",
-  "format": "Format code with Prettier"
-}
-```
+5. Create a Pull Request

@@ -84,7 +84,7 @@ export const login = async (req,res) => {
    })
  
  
-   return res.json({success:true});
+   return res.json({success:true,token:token});
 
         
     } catch (error) {
@@ -92,3 +92,4 @@ export const login = async (req,res) => {
          console.log(error)
     }
 }
+

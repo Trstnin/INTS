@@ -69,7 +69,8 @@ const Login = () => {
                   <div className="mt-5">
                     <button
                       type="button"
-                      className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                      onClick={() => window.location.href = `${import.meta.env.VITE_BASE_URL}/auth/google`}
+                      className="w-full cursor-pointer py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
                     >
                       <svg
                         className="w-4 h-auto"

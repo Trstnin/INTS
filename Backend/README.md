@@ -1,24 +1,63 @@
-# Into Startups - Backend API
+# Into Startups - Backend 🔧
 
-A robust backend service for the Into Startups platform, providing authentication, user management, and startup-related features.
+Secure and scalable backend service featuring OAuth2 authentication and JWT session management.
 
-## 🚀 Quick Start
+## ✨ Features
 
-1. Clone and install dependencies:
+- Google OAuth2 Integration
+- JWT Token Authentication
+- Express Validator Implementation
+- MongoDB with Mongoose
+- Cookie-based Sessions
+- CORS Configuration
+- Secure Password Hashing
+
+## 🛠️ Tech Stack
+
+- Node.js
+- Express 5
+- MongoDB with Mongoose 8
+- JWT for Authentication
+- bcrypt for Password Hashing
+- Express Validator
+- Axios for OAuth2
+- Cookie Parser
+
+## 📁 Project Structure
+
+```
+src/
+├── controllers/
+│   ├── userController.js     # User auth logic
+│   └── googleController.js   # OAuth handling
+├── models/
+│   └── userModel.js         # User schema
+├── routes/
+│   ├── appRouter.js         # Main router
+│   └── authRouter.js        # Auth routes
+├── utils/
+│   └── validator.js         # Request validation
+├── db/
+│   └── connectDb.js         # Database connection
+└── app.js                   # Express setup
+```
+
+## ⚡ Quick Start
+
+1. Install dependencies:
 ```bash
-git clone https://github.com/Trstnin/INTS.git
-cd INTS/Backend
 npm install
 ```
 
-2. Configure environment:
+2. Configure environment variables:
 ```bash
-cp .env.example .env
-# Add the following to .env:
+# .env
 PORT=3000
-MONGODB_URI=<your_mongodb_uri>
-JWT_SECRET=<your_jwt_secret>
-NODE_ENV=development
+MONGODB_URI=your_mongodb_uri
+JWT_SECRET=your_jwt_secret
+GOOGLE_CLIENT_ID=your_client_id
+GOOGLE_CLIENT_SECRET=your_client_secret
+GOOGLE_REDIRECT_URI=http://localhost:3000/api/v1/auth/google/callback
 ```
 
 3. Start development server:
@@ -26,104 +65,60 @@ NODE_ENV=development
 npm run dev
 ```
 
-## 🛠️ Tech Stack
+## 🔑 API Endpoints
 
-- **Runtime**: Node.js
-- **Framework**: Express.js
-- **Database**: MongoDB with Mongoose
-- **Authentication**: JWT, bcrypt
-- **Validation**: Express Validator
-- **Middleware**: Cookie Parser, CORS
+### Authentication
 
-## 📡 API Endpoints
-
-### Authentication Routes (`/api/v1/auth`)
-
-#### Register User
 ```http
-POST /auth/register
-Content-Type: application/json
-
-{
-  "FirstName": "string",
-  "LastName": "string",
-  "Email": "string",
-  "Password": "string",
-  "avatarUrl": "string" (optional)
-}
-```
-
-#### Login User
-```http
-POST /auth/login
-Content-Type: application/json
-
-{
-  "Email": "string",
-  "Password": "string"
-}
-```
-
-## 📁 Project Structure
-
-```
-Backend/
-├── src/
-│   ├── controllers/
-│   │   └── userController.js    # User authentication logic
-│   ├── models/
-│   │   └── userModel.js        # User database schema
-│   ├── routes/
-│   │   ├── appRouter.js        # Main router
-│   │   └── authRouter.js       # Auth routes
-│   ├── utils/
-│   │   └── validator.js        # Request validation
-│   ├── db/
-│   │   └── connectDb.js        # Database connection
-│   └── app.js                  # Express app setup
-└── server.js                   # Server entry point
+POST /api/v1/auth/register
+POST /api/v1/auth/login
+GET  /api/v1/auth/google
+GET  /api/v1/auth/google/callback
 ```
 
 ## 🔒 Security Features
 
-- Password hashing with bcrypt
-- JWT-based authentication
-- Request validation using express-validator
-- CORS protection
-- Secure cookie handling
+- Password Hashing (bcrypt)
+- JWT Session Management
+- Request Validation
+- CORS Protection
+- Secure Cookie Handling
+- OAuth2 Implementation
 
-## 🔧 Development
+## 📊 Data Models
 
-### Prerequisites
-- Node.js
-- MongoDB
-- npm
-
-### Environment Variables
-```env
-PORT=3000                    # Server port
-MONGODB_URI=<uri>           # MongoDB connection string
-JWT_SECRET=<secret>         # JWT token secret
-NODE_ENV=development        # Environment
+### User Schema
+```javascript
+{
+  FirstName: String,
+  LastName: String,
+  Email: String,
+  Password: String,
+  avatarUrl: String,
+  googleId: String
+}
 ```
 
-### Available Scripts
-```bash
-# Start development server with nodemon
-npm run dev
+## 🔧 Middleware
 
-# Start production server
-npm start
+- Request Validation
+- Authentication Check
+- Error Handling
+- CORS Configuration
+- Body Parsing
+- Cookie Parsing
+
+## 📚 Available Scripts
+
+```bash
+npm run dev   # Start development server
+npm start     # Start production server
 ```
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## 📝 License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
