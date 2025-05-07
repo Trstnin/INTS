@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import Headerforlogin from "../components/Headersforlogin";
 import Footer from "../components/Footer";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { FaCloudUploadAlt } from "react-icons/fa";
 
 const Login = () => {
- 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -14,27 +14,43 @@ const Login = () => {
     newPassword: "",
     currentPassword: "",
     acceptTerms: false,
+    avatar: null,
   });
 
+  const [avatarPreview, setAvatarPreview] = useState(null);
+
   const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }));
+    const { name, value, type, checked, files } = e.target;
+    if (type === "file") {
+      const file = files[0];
+      if (file && file.type.startsWith("image/")) {
+        setFormData((prev) => ({ ...prev, [name]: file }));
+        // Create preview URL for image
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setAvatarPreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+      }
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: type === "checkbox" ? checked : value,
+      }));
+    }
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Add your form submission logic here
     console.log("Form submitted:", formData);
-    navigate('/Home')
+    navigate("/Home");
   };
 
   return (
     <div className="min-h-screen flex flex-col bg-[url('https://i.pinimg.com/736x/6c/3d/44/6c3d44c80e9226eea01377e62ea2fd9e.jpg')] bg-cover bg-center">
       <Headerforlogin />
-      
+
       <div className="flex-grow flex items-center justify-center py-12">
         <div className="w-full max-w-[85rem] px-4">
           {/* Form Container */}
@@ -81,7 +97,14 @@ const Login = () => {
                       </svg>
                       Sign up with Google
                     </button>
-
+                    <div className="mt-2">
+                    <p1 className="text-sm text-gray-400 ml-10 mt-4">
+                      Already have an account :
+                    </p1>
+                    <Link to={'/signIn'} className="text-sm ml-3 text-blue-400">
+                      Sign In here
+                    </Link>
+                   </div>
                     <div className="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6">
                       Or
                     </div>
@@ -168,6 +191,34 @@ const Login = () => {
                       {/* Input Group */}
                       <div></div>
 
+                      {/* Avatar Input Group */}
+                      <div className="col-span-full mb-4">
+                        <div className="relative">
+                          {avatarPreview && (
+                            <div className="mb-2">
+                              <img
+                                src={avatarPreview}
+                                alt="Avatar preview"
+                                className="w-20 h-20 rounded-full object-cover mx-auto"
+                              />
+                            </div>
+                          )}
+
+                          <label className=" p-3 h-full  text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent origin-[0_0] peer-focus:text-gray-500">
+                            <FaCloudUploadAlt className="absolute left-30 bottom-1 text-2xl" />
+                            Avatar:
+                          </label>
+                          <input
+                            type="file"
+                            name="avatar"
+                            onChange={handleChange}
+                            accept="image/*"
+                            className="p-4 gap-5 mt-2 absolute left-20 top-2 bg-zinc-300 border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
+                          />
+                        </div>
+                      </div>
+                      {/* End Avatar Input Group */}
+
                       {/* Input Group */}
                       <div className="relative col-span-full">
                         {/* Floating Input */}
@@ -234,12 +285,10 @@ const Login = () => {
                       peer-not-placeholder-shown:-translate-y-1.5
                       peer-not-placeholder-shown:text-gray-500"
                           >
-                             Password
+                            Password
                           </label>
                         </div>
                         {/* End Floating Input */}
-
-                        
                       </div>
                       {/* End Input Group */}
                     </div>
@@ -291,7 +340,7 @@ const Login = () => {
 
       {/* Footer */}
       <footer className=" py-4 mt-auto">
-       <Footer />
+        <Footer />
       </footer>
     </div>
   );

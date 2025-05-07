@@ -13,7 +13,7 @@ const HeroSection = () => {
         <p className="mt-4 text-lg text-white">
           Your journey into the world of startups begins here.
         </p>
-        <Link to={'/login'} className="mt-6 px-6 py-2 bg-green-500 text-black font-semibold rounded-2xl text-3xl hover:bg-blue-600">
+        <Link to={'/signIn'} className="mt-6 px-6 py-2 bg-green-500 text-black font-semibold rounded-2xl text-3xl hover:bg-blue-600">
           Explore
         </Link>
       </div>

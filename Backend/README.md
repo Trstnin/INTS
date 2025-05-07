@@ -14,7 +14,11 @@ npm install
 2. Configure environment:
 ```bash
 cp .env.example .env
-# Edit .env with your credentials
+# Add the following to .env:
+PORT=3000
+MONGODB_URI=<your_mongodb_uri>
+JWT_SECRET=<your_jwt_secret>
+NODE_ENV=development
 ```
 
 3. Start development server:
@@ -30,38 +34,22 @@ npm run dev
 - **Authentication**: JWT, bcrypt
 - **Validation**: Express Validator
 - **Middleware**: Cookie Parser, CORS
-- **Development**: Nodemon
 
-## 📡 API Documentation
+## 📡 API Endpoints
 
-### Base URL
-```
-http://localhost:3000/api/v1
-```
-
-### Authentication Endpoints
+### Authentication Routes (`/api/v1/auth`)
 
 #### Register User
 ```http
-POST /auth/signup
+POST /auth/register
 Content-Type: application/json
 
 {
-  "firstName": "string",
-  "lastName": "string",
-  "email": "string",
-  "password": "string"
-}
-
-Response: 201 Created
-{
-  "message": "User created successfully",
-  "user": {
-    "id": "string",
-    "firstName": "string",
-    "lastName": "string",
-    "email": "string"
-  }
+  "FirstName": "string",
+  "LastName": "string",
+  "Email": "string",
+  "Password": "string",
+  "avatarUrl": "string" (optional)
 }
 ```
 
@@ -71,59 +59,8 @@ POST /auth/login
 Content-Type: application/json
 
 {
-  "email": "string",
-  "password": "string"
-}
-
-Response: 200 OK
-{
-  "message": "Login successful",
-  "token": "string"
-}
-```
-
-#### Get User Profile
-```http
-GET /auth/profile
-Authorization: Bearer <token>
-
-Response: 200 OK
-{
-  "user": {
-    "id": "string",
-    "firstName": "string",
-    "lastName": "string",
-    "email": "string"
-  }
-}
-```
-
-### Error Responses
-
-```http
-400 Bad Request
-{
-  "status": "error",
-  "message": "Validation error",
-  "errors": [...]
-}
-
-401 Unauthorized
-{
-  "status": "error",
-  "message": "Invalid credentials"
-}
-
-404 Not Found
-{
-  "status": "error",
-  "message": "Resource not found"
-}
-
-500 Internal Server Error
-{
-  "status": "error",
-  "message": "Internal server error"
+  "Email": "string",
+  "Password": "string"
 }
 ```
 
@@ -131,36 +68,36 @@ Response: 200 OK
 
 ```
 Backend/
-├── src/                  # Source files
-│   ├── controllers/      # Route controllers
-│   ├── models/          # Database models
-│   ├── routes/          # API routes
-│   ├── middleware/      # Custom middleware
-│   ├── utils/           # Utility functions
-│   ├── config/          # Configuration files
-│   ├── db/              # Database connection
-│   └── app.js          # Express app setup
-├── tests/               # Test files
-├── server.js           # Server entry point
-└── package.json        # Project manifest
+├── src/
+│   ├── controllers/
+│   │   └── userController.js    # User authentication logic
+│   ├── models/
+│   │   └── userModel.js        # User database schema
+│   ├── routes/
+│   │   ├── appRouter.js        # Main router
+│   │   └── authRouter.js       # Auth routes
+│   ├── utils/
+│   │   └── validator.js        # Request validation
+│   ├── db/
+│   │   └── connectDb.js        # Database connection
+│   └── app.js                  # Express app setup
+└── server.js                   # Server entry point
 ```
 
 ## 🔒 Security Features
 
 - Password hashing with bcrypt
 - JWT-based authentication
-- Request validation
+- Request validation using express-validator
 - CORS protection
-- Rate limiting
-- Secure HTTP headers
-- Input sanitization
+- Secure cookie handling
 
 ## 🔧 Development
 
 ### Prerequisites
-- Node.js (v18+)
+- Node.js
 - MongoDB
-- npm/yarn
+- npm
 
 ### Environment Variables
 ```env
@@ -168,71 +105,25 @@ PORT=3000                    # Server port
 MONGODB_URI=<uri>           # MongoDB connection string
 JWT_SECRET=<secret>         # JWT token secret
 NODE_ENV=development        # Environment
-CORS_ORIGIN=*              # CORS allowed origins
 ```
 
-### Commands
+### Available Scripts
 ```bash
-# Start development server
+# Start development server with nodemon
 npm run dev
 
 # Start production server
 npm start
-
-# Run tests
-npm test
-
-# Check linting
-npm run lint
-
-# Fix linting issues
-npm run lint:fix
-```
-
-## 🧪 Testing
-
-```bash
-# Run all tests
-npm test
-
-# Run specific test file
-npm test -- users.test.js
-
-# Run with coverage
-npm run test:coverage
-```
-
-## 📈 Monitoring
-
-The API includes basic monitoring endpoints:
-
-```http
-GET /health
-Response: 200 OK
-{
-  "status": "healthy",
-  "timestamp": "ISO-8601 date"
-}
 ```
 
 ## 🤝 Contributing
 
 1. Fork the repository
-2. Create a feature branch
-3. Commit changes
-4. Push to the branch
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 💡 Support
-
-For support, email dev@intostartups.com or join our Slack channel.
-
-## 📚 Additional Resources
-
-- [API Documentation](docs/api.md)
-- [Contribution Guide](CONTRIBUTING.md)
-- [Security Policy](SECURITY.md)

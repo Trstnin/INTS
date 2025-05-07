@@ -110,7 +110,7 @@ const Header = () => {
               <div className="ml-16">
                 <Link
                   className="group inline-flex items-center  gap-x-2 py-1 px-8 bg-green-500 hover:bg-blue-600 font-semibold text-xl text-neutral-800 rounded-full focus:outline-hidden"
-                  to={"/login"} 
+                  to={"/signIn"} 
                 >
                   Login
                 </Link>
