@@ -1,6 +1,7 @@
 import userModel from "../models/userModel.js";
 import jwt from "jsonwebtoken";
 import axios from "axios";
+import transporter from "../utils/nodemailer.js";
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
@@ -65,6 +66,18 @@ export const googleCallback = async (req, res) => {
         sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
         maxAge: 7 * 24 * 60 * 60 * 1000,
       });
+
+              //sending welcome email:
+
+              const mailOptions = {
+                from: process.env.SENDER_EMAIL,
+                to: email,
+                subject:"Welcome to INTS or InTo StartUps",
+                text:`Welcome to INTS or InTo Startups. Your account has been created with email id : ${email} `
+            }
+    
+            await transporter.sendMail(mailOptions)
+    
   
       // Step 2.7: Redirect back to frontend
       res.redirect(`http://localhost:5173/oauth-success?token=${token}`);

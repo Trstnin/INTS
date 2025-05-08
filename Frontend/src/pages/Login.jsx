@@ -3,52 +3,87 @@ import Headerforlogin from "../components/Headersforlogin";
 import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
 import { FaCloudUploadAlt } from "react-icons/fa";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const navigate = useNavigate();
-
+ 
   const [formData, setFormData] = useState({
+    email: "",
+    password: "",
     firstName: "",
     lastName: "",
-    email: "",
-    newPassword: "",
-    currentPassword: "",
-    acceptTerms: false,
     avatar: null,
+    acceptTerms: false,
   });
 
   const [avatarPreview, setAvatarPreview] = useState(null);
 
   const handleChange = (e) => {
     const { name, value, type, checked, files } = e.target;
+    
     if (type === "file") {
       const file = files[0];
-      if (file && file.type.startsWith("image/")) {
-        setFormData((prev) => ({ ...prev, [name]: file }));
-        // Create preview URL for image
+      setFormData(prev => ({
+        ...prev,
+        [name]: file
+      }));
+      
+      // Create preview URL for avatar
+      if (file) {
         const reader = new FileReader();
         reader.onloadend = () => {
           setAvatarPreview(reader.result);
         };
         reader.readAsDataURL(file);
       }
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: type === "checkbox" ? checked : value,
-      }));
+      return;
     }
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: type === "checkbox" ? checked : value,
+    }))
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your form submission logic here
-    console.log("Form submitted:", formData);
-    navigate("/Home");
-  };
+
+    const userData = {
+      Email:formData.email,
+      Password:formData.password,
+      FirstName : formData.firstName,
+      LastName: formData.lastName,
+      avatarUrl: formData.avatar
+    };
+
+ try {
+  const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/register`, userData);
+
+  if(response.status == 200) {
+    const data = response.data;
+    localStorage.setItem("token", data.token);
+    toast.success("Register Successfuly !!!");
+    setTimeout(() => {
+      navigate("/Home");
+    },1500)
+  }
+  
+ } catch (error) {
+   console.log(error)
+     toast.error("Register Failed. Please try again");
+ }
+
+  }
+ 
+
+
 
   return (
     <div className="min-h-screen flex flex-col bg-[url('https://i.pinimg.com/736x/6c/3d/44/6c3d44c80e9226eea01377e62ea2fd9e.jpg')] bg-cover bg-center">
+      <ToastContainer position="top-right" autoClose={3000} />
       <Headerforlogin />
 
       <div className="flex-grow flex items-center justify-center py-12">
@@ -261,8 +296,8 @@ const Login = () => {
                           <input
                             required
                             type="password"
-                            name="newPassword"
-                            value={formData.newPassword}
+                            name="password"
+                            value={formData.password}
                             onChange={handleChange}
                             id="hs-hero-signup-form-floating-input-new-password"
                             className="peer p-3 sm:p-4 block w-full border-gray-200 rounded-lg sm:text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none

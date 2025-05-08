@@ -43,9 +43,14 @@ VITE_BASE_URL=http://localhost:3000/api/v1
 # Backend (.env)
 PORT=3000
 MONGODB_URI=your_mongodb_uri
-JWT_SECRET=your_secret
-GOOGLE_CLIENT_ID=your_client_id
-GOOGLE_CLIENT_SECRET=your_client_secret
+JWT_SECRET=your_jwt_secret
+SMTP_USER=your_smtp_host
+SMTP_PORT=your_smtp_port
+SMTP_LOGIN=your_smtp_login
+SMTP_PASS=your_smtp_password
+SENDER_EMAIL=your_sender_email
+GOOGLE_CLIENT_ID=your_google_client_id
+GOOGLE_CLIENT_SECRET=your_google_client_secret
 GOOGLE_REDIRECT_URI=http://localhost:3000/api/v1/auth/google/callback
 ```
 

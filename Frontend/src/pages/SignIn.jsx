@@ -2,9 +2,13 @@ import React, { useState } from "react";
 import Headerforlogin from "../components/Headersforlogin";
 import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
+import {ToastContainer, toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const SignIn = () => {
+
+  
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -21,26 +25,33 @@ const SignIn = () => {
     }));
   };
 
-  
-
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-   const userData = {
-    Email:formData.email,
-    Password:formData.password
+    const userData = {
+      Email: formData.email,
+      Password: formData.password,
+    };
+
+   try {
+     const response = await axios.post(
+       `${import.meta.env.VITE_BASE_URL}/auth/login`,
+       userData
+     );
+ 
+     if (response.status == 200) {
+       const data = response.data;
+       localStorage.setItem("token", data.token);
+       toast.success("Login Successfully !!!");
+       setTimeout(() => {
+        navigate("/Home");
+       }, 1500);
+     }
+   } catch (err) {
+    console.log(err)
+    //  window.location.reload()
+     toast.error("Login failed. Please check your credentials");
    }
-
-   const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/login`,userData)
-  
-
-   
-  if(response.status == 200){
-    const data = response.data;
-    localStorage.setItem('token', data.token)
-    navigate("/Home");
-  }
-
   };
 
   return (
@@ -61,11 +72,14 @@ const SignIn = () => {
 
                   <div className="mt-5">
                     <button
-                    onClick={() => window.location.href = `${import.meta.env.VITE_BASE_URL}/auth/google`}
+                      onClick={() =>
+                        (window.location.href = `${
+                          import.meta.env.VITE_BASE_URL
+                        }/auth/google`)
+                      }
                       type="button"
                       className="w-full py-3 px-4 inline-flex cursor-pointer justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50"
-                      
-                   >
+                    >
                       <svg
                         className="w-4 h-auto"
                         width="46"
@@ -143,10 +157,7 @@ const SignIn = () => {
                         />
                         <label htmlFor="remember-me" className="ml-3 text-sm">
                           I accept the{" "}
-                          <a
-                            href="#"
-                            className="text-blue-600 hover:underline"
-                          >
+                          <a href="#" className="text-blue-600 hover:underline">
                             Terms and Conditions
                           </a>
                         </label>
@@ -166,6 +177,8 @@ const SignIn = () => {
           </div>
         </div>
       </div>
+
+   <ToastContainer />
 
       <footer className="py-4 mt-auto">
         <Footer />

@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { CiLogout } from "react-icons/ci";
 
-const Headerforlogin = () => {
+const Navbar =  () => {
   return (
     <>
       {/* ========== HEADER ========== */}
@@ -12,7 +13,7 @@ const Headerforlogin = () => {
               {/* Logo */}
               <Link
                 className="flex-none rounded-md text-xl flex font-semibold focus:outline-hidden focus:opacity-80 "
-                to={'/'}
+                to={"/Home"}
                 aria-label="INTS"
               >
                 <img
@@ -25,6 +26,25 @@ const Headerforlogin = () => {
                 </h1>
               </Link>
             </div>
+
+            <div className="ml-[600px] flex justify-between">
+              <Link className="mt-1"
+                to={'/Logout'}
+               >
+                <CiLogout
+                  className="text-4xl cursor-pointer"
+                  title="Wanna Logout"
+                />
+              </Link>
+
+              <div className="ml-7">
+                <img
+                  src="https://i.pinimg.com/736x/23/3b/5f/233b5fac19d3360b84fa9814b981e6f8.jpg"
+                  alt=""
+                  className="h-12 rounded-4xl"
+                />
+              </div>
+            </div>
           </div>
         </nav>
       </header>
@@ -33,4 +53,4 @@ const Headerforlogin = () => {
   );
 };
 
-export default Headerforlogin;
+export default Navbar;

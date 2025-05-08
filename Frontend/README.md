@@ -18,8 +18,10 @@ Modern React-based frontend for the Into Startups platform featuring OAuth2 auth
 - Vite 6
 - Tailwind CSS 4
 - React Router DOM 7
-- Axios
+- Axios for API requests 
 - React Icons
+- React Toastify
+- Auth0 React SDK
 
 ## 📁 Project Structure
 
@@ -88,7 +90,7 @@ npm run dev
 npm run dev      # Start development server
 npm run build    # Build for production
 npm run preview  # Preview production build
-npm run lint     # Run ESLint
+npm run lint     # Run ESLint checks
 ```
 
 ## 🔧 Configuration

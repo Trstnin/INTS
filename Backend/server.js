@@ -3,8 +3,6 @@ import connectDb from './src/db/connectDb.js';
 const PORT = process.env.PORT 
 
 
-
-
 connectDb()
 .then(app.listen(PORT , () =>{
     console.log(`app is listening to port ${PORT}`)

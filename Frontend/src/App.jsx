@@ -5,6 +5,8 @@ import Home from './pages/Home'
 import { Route, Routes } from 'react-router-dom'
 import SignIn from './pages/SignIn'
 import OauthSuccess from "./pages/OauthSuccess";
+import UserProtectedRoute from './components/ProtectedRoutes/UserProtectedRoute'
+import UserLogout from './pages/UserLogout'
 
 const App = () => {
   return (
@@ -15,6 +17,16 @@ const App = () => {
         <Route path='/signIn' element={<SignIn/>}></Route>
         <Route path='/Home' element={<Home />}></Route>
         <Route path="/oauth-success" element={<OauthSuccess />} />
+         <Route
+          path='/Logout'
+          element={
+            <UserProtectedRoute>
+              <UserLogout />
+            </UserProtectedRoute>
+          }
+         >
+          </Route>  
+
        </Routes>
     </>
   )
