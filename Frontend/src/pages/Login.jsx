@@ -1,103 +1,62 @@
 import React, { useState } from "react";
-import Headerforlogin from "../components/Headersforlogin";
-import Footer from "../components/Footer";
 import { Link, useNavigate } from "react-router-dom";
-import { FaCloudUploadAlt } from "react-icons/fa";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Headerforlogin from "../components/Headersforlogin";
+import Footer from "../components/Footer";
 
-const Login = () => {
+const Register = () => {
   const navigate = useNavigate();
- 
   const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    avatar: null,
-    acceptTerms: false,
+    FirstName: "",
+    LastName: "",
+    Email: "",
+    Password: "",
+    acceptTerms: false
   });
 
-  const [avatarPreview, setAvatarPreview] = useState(null);
-
   const handleChange = (e) => {
-    const { name, value, type, checked, files } = e.target;
-    
-    if (type === "file") {
-      const file = files[0];
-      setFormData(prev => ({
-        ...prev,
-        [name]: file
-      }));
-      
-      // Create preview URL for avatar
-      if (file) {
-        const reader = new FileReader();
-        reader.onloadend = () => {
-          setAvatarPreview(reader.result);
-        };
-        reader.readAsDataURL(file);
-      }
-      return;
-    }
-
-    setFormData((prev) => ({
+    const { name, value, type, checked } = e.target;
+    setFormData(prev => ({
       ...prev,
-      [name]: type === "checkbox" ? checked : value,
-    }))
+      [name]: type === "checkbox" ? checked : value
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/auth/register`,
+        formData,
+        {
+          headers: { "Content-Type": "application/json" }
+        }
+      );
 
-    const userData = {
-      Email:formData.email,
-      Password:formData.password,
-      FirstName : formData.firstName,
-      LastName: formData.lastName,
-      avatarUrl: formData.avatar
-    };
-
- try {
-  const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/auth/register`, userData);
-
-  if(response.status == 200) {
-    const data = response.data;
-    localStorage.setItem("token", data.token);
-    toast.success("Register Successfuly !!!");
-    setTimeout(() => {
-      navigate("/Home");
-    },1500)
-  }
-  
- } catch (error) {
-   console.log(error)
-     toast.error("Register Failed. Please try again");
- }
-
-  }
- 
-
-
+      if (response.status === 200) {
+        toast.success("Registration successful!");
+        setTimeout(() => navigate("/signIn"), 1500);
+      }
+    } catch (error) {
+      toast.error(error.response?.data?.message || "Registration failed");
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-[url('https://i.pinimg.com/736x/6c/3d/44/6c3d44c80e9226eea01377e62ea2fd9e.jpg')] bg-cover bg-center">
-      <ToastContainer position="top-right" autoClose={3000} />
       <Headerforlogin />
 
       <div className="flex-grow flex items-center justify-center py-12">
         <div className="w-full max-w-[85rem] px-4">
-          {/* Form Container */}
           <div className="max-w-lg mx-auto">
-            {/* Form Content */}
             <form onSubmit={handleSubmit}>
               <div className="lg:max-w-lg lg:mx-auto lg:me-0 ms-auto">
-                {/* Card */}
                 <div className="p-4 sm:p-7 flex flex-col bg-zinc-300 rounded-2xl shadow-lg">
                   <div className="text-center">
                     <h1 className="block text-2xl font-bold text-gray-800">
-                      Start your exciting journey with us
+                      Create Your Account
                     </h1>
                   </div>
 
@@ -105,281 +64,111 @@ const Login = () => {
                     <button
                       type="button"
                       onClick={() => window.location.href = `${import.meta.env.VITE_BASE_URL}/auth/google`}
-                      className="w-full cursor-pointer py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50 focus:outline-hidden focus:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none"
+                      className="w-full py-3 px-4 inline-flex cursor-pointer justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-2xs hover:bg-gray-50"
                     >
-                      <svg
-                        className="w-4 h-auto"
-                        width="46"
-                        height="47"
-                        viewBox="0 0 46 47"
-                        fill="none"
-                      >
-                        <path
-                          d="M46 24.0287C46 22.09 45.8533 20.68 45.5013 19.2112H23.4694V27.9356H36.4069C36.1429 30.1094 34.7347 33.37 31.5957 35.5731L31.5663 35.8669L38.5191 41.2719L38.9885 41.3306C43.4477 37.2181 46 31.1669 46 24.0287Z"
-                          fill="#4285F4"
-                        ></path>
-                        <path
-                          d="M23.4694 47C29.8061 47 35.1161 44.9144 39.0179 41.3012L31.625 35.5437C29.6301 36.9244 26.9898 37.8937 23.4987 37.8937C17.2793 37.8937 12.0281 33.7812 10.1505 28.1412L9.88649 28.1706L2.61097 33.7812L2.52296 34.0456C6.36608 41.7125 14.287 47 23.4694 47Z"
-                          fill="#34A853"
-                        ></path>
-                        <path
-                          d="M10.1212 28.1413C9.62245 26.6725 9.32908 25.1156 9.32908 23.5C9.32908 21.8844 9.62245 20.3275 10.0918 18.8588V18.5356L2.75765 12.8369L2.52296 12.9544C0.909439 16.1269 0 19.7106 0 23.5C0 27.2894 0.909439 30.8731 2.49362 34.0456L10.1212 28.1413Z"
-                          fill="#FBBC05"
-                        ></path>
-                        <path
-                          d="M23.4694 9.07688C27.8699 9.07688 30.8622 10.9863 32.5344 12.5725L39.1645 6.11C35.0867 2.32063 29.8061 0 23.4694 0C14.287 0 6.36607 5.2875 2.49362 12.9544L10.0918 18.8588C11.9987 13.1894 17.25 9.07688 23.4694 9.07688Z"
-                          fill="#EB4335"
-                        ></path>
+                      <svg className="w-4 h-auto" width="46" height="47" viewBox="0 0 46 47" fill="none">
+                        <path d="M46 24.0287C46 22.09 45.8533 20.68 45.5013 19.2112H23.4694V27.9356H36.4069C36.1429 30.1094 34.7347 33.37 31.5957 35.5731L31.5663 35.8669L38.5191 41.2719L38.9885 41.3306C43.4477 37.2181 46 31.1669 46 24.0287Z" fill="#4285F4"></path>
+                        <path d="M23.4694 47C29.8061 47 35.1161 44.9144 39.0179 41.3012L31.625 35.5437C29.6301 36.9244 26.9898 37.8937 23.4987 37.8937C17.2793 37.8937 12.0281 33.7812 10.1505 28.1412L9.88649 28.1706L2.61097 33.7812L2.52296 34.0456C6.36608 41.7125 14.287 47 23.4694 47Z" fill="#34A853"></path>
+                        <path d="M10.1212 28.1413C9.62245 26.6725 9.32908 25.1156 9.32908 23.5C9.32908 21.8844 9.62245 20.3275 10.0918 18.8588V18.5356L2.75765 12.8369L2.52296 12.9544C0.909439 16.1269 0 19.7106 0 23.5C0 27.2894 0.909439 30.8731 2.49362 34.0456L10.1212 28.1413Z" fill="#FBBC05"></path>
+                        <path d="M23.4694 9.07688C27.8699 9.07688 30.8622 10.9863 32.5344 12.5725L39.1645 6.11C35.0867 2.32063 29.8061 0 23.4694 0C14.287 0 6.36607 5.2875 2.49362 12.9544L10.0918 18.8588C11.9987 13.1894 17.25 9.07688 23.4694 9.07688Z" fill="#EB4335"></path>
                       </svg>
                       Sign up with Google
                     </button>
+
                     <div className="mt-2">
-                    <p1 className="text-sm text-gray-400 ml-10 mt-4">
-                      Already have an account :
-                    </p1>
-                    <Link to={'/signIn'} className="text-sm ml-3 text-blue-400">
-                      Sign In here
-                    </Link>
-                   </div>
+                      <p className="text-sm text-gray-400 ml-10 mt-4">
+                        Already have an account?{" "}
+                        <Link to="/signIn" className="text-blue-400">
+                          Sign In here
+                        </Link>
+                      </p>
+                    </div>
+
                     <div className="py-3 flex items-center text-xs text-gray-400 uppercase before:flex-1 before:border-t before:border-gray-200 before:me-6 after:flex-1 after:border-t after:border-gray-200 after:ms-6">
                       Or
                     </div>
 
-                    {/* Grid */}
-                    <div className="grid grid-cols-2 gap-4">
-                      {/* Input Group */}
-                      <div>
-                        {/* Floating Input */}
-                        <div className="relative">
-                          <input
-                            required
-                            type="text"
-                            name="firstName"
-                            value={formData.firstName}
-                            onChange={handleChange}
-                            id="hs-hero-signup-form-floating-input-first-name"
-                            className="peer p-3 sm:p-4 block w-full border-gray-200 rounded-lg sm:text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none
-                    focus:pt-6
-                    focus:pb-2
-                    not-placeholder-shown:pt-6
-                    not-placeholder-shown:pb-2
-                    autofill:pt-6
-                    autofill:pb-2"
-                            placeholder="John"
-                          />
-                          <label
-                            htmlFor="hs-hero-signup-form-floating-input-first-name"
-                            className="absolute top-0 start-0 p-3 sm:p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent origin-[0_0] peer-disabled:opacity-50 peer-disabled:pointer-events-none
-                      peer-focus:scale-90
-                      peer-focus:translate-x-0.5
-                      peer-focus:-translate-y-1.5
-                      peer-focus:text-gray-500
-                      peer-not-placeholder-shown:scale-90
-                      peer-not-placeholder-shown:translate-x-0.5
-                      peer-not-placeholder-shown:-translate-y-1.5
-                      peer-not-placeholder-shown:text-gray-500"
-                          >
-                            First name
-                          </label>
-                        </div>
-                        {/* End Floating Input */}
-                      </div>
-                      {/* End Input Group */}
-
-                      {/* Input Group */}
-                      <div>
-                        {/* Floating Input */}
-                        <div className="relative">
-                          <input
-                            type="text"
-                            name="lastName"
-                            value={formData.lastName}
-                            onChange={handleChange}
-                            id="hs-hero-signup-form-floating-input-last-name"
-                            className="peer p-3 sm:p-4 block w-full border-gray-200 rounded-lg sm:text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none
-                    focus:pt-6
-                    focus:pb-2
-                    not-placeholder-shown:pt-6
-                    not-placeholder-shown:pb-2
-                    autofill:pt-6
-                    autofill:pb-2"
-                            placeholder="Doe"
-                          />
-                          <label
-                            htmlFor="hs-hero-signup-form-floating-input-last-name"
-                            className="absolute top-0 start-0 p-3 sm:p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent origin-[0_0] peer-disabled:opacity-50 peer-disabled:pointer-events-none
-                      peer-focus:scale-90
-                      peer-focus:translate-x-0.5
-                      peer-focus:-translate-y-1.5
-                      peer-focus:text-gray-500
-                      peer-not-placeholder-shown:scale-90
-                      peer-not-placeholder-shown:translate-x-0.5
-                      peer-not-placeholder-shown:-translate-y-1.5
-                      peer-not-placeholder-shown:text-gray-500"
-                          >
-                            Last name
-                          </label>
-                        </div>
-                        {/* End Floating Input */}
-                      </div>
-                      {/* End Input Group */}
-
-                      {/* Input Group */}
-                      <div></div>
-
-                      {/* Avatar Input Group */}
-                      <div className="col-span-full mb-4">
-                        <div className="relative">
-                          {avatarPreview && (
-                            <div className="mb-2">
-                              <img
-                                src={avatarPreview}
-                                alt="Avatar preview"
-                                className="w-20 h-20 rounded-full object-cover mx-auto"
-                              />
-                            </div>
-                          )}
-
-                          <label className=" p-3 h-full  text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent origin-[0_0] peer-focus:text-gray-500">
-                            <FaCloudUploadAlt className="absolute left-30 bottom-1 text-2xl" />
-                            Avatar:
-                          </label>
-                          <input
-                            type="file"
-                            name="avatar"
-                            onChange={handleChange}
-                            accept="image/*"
-                            className="p-4 gap-5 mt-2 absolute left-20 top-2 bg-zinc-300 border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none"
-                          />
-                        </div>
-                      </div>
-                      {/* End Avatar Input Group */}
-
-                      {/* Input Group */}
-                      <div className="relative col-span-full">
-                        {/* Floating Input */}
-                        <div className="relative">
-                          <input
-                            type="email"
-                            required
-                            name="email"
-                            value={formData.email}
-                            onChange={handleChange}
-                            id="hs-hero-signup-form-floating-input-email"
-                            className="peer p-3 mb-2 sm:p-4 block w-full border-gray-200 rounded-lg sm:text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none
-                    focus:pt-6
-                    focus:pb-2
-                    not-placeholder-shown:pt-6
-                    not-placeholder-shown:pb-2
-                    autofill:pt-6
-                    autofill:pb-2"
-                            placeholder="you@email.com"
-                          />
-                          <label
-                            htmlFor="hs-hero-signup-form-floating-input-email"
-                            className="absolute  top-0 start-0 p-3 sm:p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent origin-[0_0] peer-disabled:opacity-50 peer-disabled:pointer-events-none
-                      peer-focus:scale-90
-                      peer-focus:translate-x-0.5
-                      peer-focus:-translate-y-1.5
-                      peer-focus:text-gray-500
-                      peer-not-placeholder-shown:scale-90
-                      peer-not-placeholder-shown:translate-x-0.5
-                      peer-not-placeholder-shown:-translate-y-1.5
-                      peer-not-placeholder-shown:text-gray-500"
-                          >
-                            Email
-                          </label>
-                        </div>
-                        {/* End Floating Input */}
-                        {/* Floating Input */}
-                        <div className="relative">
-                          <input
-                            required
-                            type="password"
-                            name="password"
-                            value={formData.password}
-                            onChange={handleChange}
-                            id="hs-hero-signup-form-floating-input-new-password"
-                            className="peer p-3 sm:p-4 block w-full border-gray-200 rounded-lg sm:text-sm placeholder:text-transparent focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none
-                    focus:pt-6
-                    focus:pb-2
-                    not-placeholder-shown:pt-6
-                    not-placeholder-shown:pb-2
-                    autofill:pt-6
-                    autofill:pb-2"
-                            placeholder="********"
-                          />
-                          <label
-                            htmlFor="hs-hero-signup-form-floating-input-new-password"
-                            className="absolute top-0 start-0 p-3 sm:p-4 h-full text-sm truncate pointer-events-none transition ease-in-out duration-100 border border-transparent origin-[0_0] peer-disabled:opacity-50 peer-disabled:pointer-events-none
-                      peer-focus:scale-90
-                      peer-focus:translate-x-0.5
-                      peer-focus:-translate-y-1.5
-                      peer-focus:text-gray-500
-                      peer-not-placeholder-shown:scale-90
-                      peer-not-placeholder-shown:translate-x-0.5
-                      peer-not-placeholder-shown:-translate-y-1.5
-                      peer-not-placeholder-shown:text-gray-500"
-                          >
-                            Password
-                          </label>
-                        </div>
-                        {/* End Floating Input */}
-                      </div>
-                      {/* End Input Group */}
-                    </div>
-                    {/* End Grid */}
-
-                    {/* Checkbox */}
-                    <div className="mt-5 flex items-center">
-                      <div className="flex">
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-2 gap-4">
                         <input
-                          id="remember-me"
+                          type="text"
+                          name="FirstName"
+                          value={formData.FirstName}
+                          onChange={handleChange}
+                          className="peer p-3 block w-full border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500"
+                          placeholder="First Name"
+                          required
+                        />
+                        <input
+                          type="text"
+                          name="LastName"
+                          value={formData.LastName}
+                          onChange={handleChange}
+                          className="peer p-3 block w-full border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500"
+                          placeholder="Last Name"
+                          required
+                        />
+                      </div>
+
+                      <input
+                        type="email"
+                        name="Email"
+                        value={formData.Email}
+                        onChange={handleChange}
+                        className="peer p-3 block w-full border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500"
+                        placeholder="Email"
+                        required
+                      />
+
+                      <input
+                        type="password"
+                        name="Password"
+                        value={formData.Password}
+                        onChange={handleChange}
+                        className="peer p-3 block w-full border-gray-200 rounded-lg focus:border-blue-500 focus:ring-blue-500"
+                        placeholder="Password"
+                        required
+                      />
+
+                      <div className="flex items-center">
+                        <input
+                          id="acceptTerms"
                           name="acceptTerms"
                           type="checkbox"
                           checked={formData.acceptTerms}
                           onChange={handleChange}
                           required
-                          className="shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600 focus:ring-blue-500"
+                          className="shrink-0 mt-0.5 border-gray-200 rounded-sm text-blue-600"
                         />
-                      </div>
-                      <div className="ms-3">
-                        <label htmlFor="remember-me" className="text-sm">
+                        <label htmlFor="acceptTerms" className="ml-3 text-sm">
                           I accept the{" "}
-                          <a
-                            className="text-blue-600 decoration-2 hover:underline focus:outline-hidden focus:underline font-medium"
-                            href="#"
-                          >
+                          <a className="text-blue-600 hover:underline">
                             Terms and Conditions
                           </a>
                         </label>
                       </div>
-                    </div>
-                    {/* End Checkbox */}
 
-                    <div className="mt-5">
                       <button
                         type="submit"
-                        className="w-full py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-medium rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 focus:outline-hidden focus:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                        className="w-full py-3 px-4 text-sm font-medium rounded-lg bg-blue-600 text-white hover:bg-blue-700"
                       >
-                        Get started
+                        Create Account
                       </button>
                     </div>
                   </div>
                 </div>
-                {/* End Card */}
               </div>
             </form>
           </div>
         </div>
       </div>
 
-      {/* Footer */}
-      <footer className=" py-4 mt-auto">
+      <ToastContainer />
+      <footer className="py-4 mt-auto">
         <Footer />
       </footer>
     </div>
   );
 };
 
-export default Login;
+export default Register;

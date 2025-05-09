@@ -1,8 +1,8 @@
 import express from 'express';
-import { login, logout, profile, register } from '../controllers/userController.js';
+import { createPreferenceName, getPreferenceName, login, logout,  profile, register } from '../controllers/userController.js';
 import { loginValidator, registerValidator, validate } from '../utils/validator.js';
 import { googleCallback, loginWithGoogle } from '../controllers/googleController.js';
-import authUser from '../../middlewares/authMiddleware.js';
+import authUser from '../middlewares/authMiddleware.js'
 
 const authRouter = express.Router();
 
@@ -12,6 +12,8 @@ authRouter.get('/google',loginWithGoogle);
 authRouter.get('/google/callback',googleCallback);
 authRouter.post('/logout',authUser,logout);
 authRouter.get('/profile',authUser,profile);
+authRouter.put('/preferenceName',authUser,createPreferenceName);
+authRouter.get('/preferenceName', authUser, getPreferenceName);
 
 
 export default authRouter

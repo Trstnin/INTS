@@ -14,11 +14,11 @@ Modern React-based frontend for the Into Startups platform featuring OAuth2 auth
 
 ## 🛠️ Tech Stack
 
-- React 19
-- Vite 6
-- Tailwind CSS 4
-- React Router DOM 7
-- Axios for API requests 
+- React 18
+- Vite 5
+- Tailwind CSS 3
+- React Router DOM 6
+- Axios 1.x
 - React Icons
 - React Toastify
 - Auth0 React SDK
@@ -28,19 +28,20 @@ Modern React-based frontend for the Into Startups platform featuring OAuth2 auth
 ```
 src/
 ├── components/
-│   ├── Header.jsx         # Main navigation
-│   ├── Footer.jsx         # Site footer
-│   ├── Feedback.jsx       # User testimonials
-│   └── HeroSection.jsx    # Landing page hero
+│   ├── auth/             # Authentication components
+│   ├── layout/           # Layout components
+│   ├── common/           # Reusable components
+│   └── features/         # Feature-specific components
 ├── pages/
-│   ├── Landing.jsx        # Home page
-│   ├── Login.jsx          # Registration page
-│   ├── SignIn.jsx         # Login page
-│   └── OauthSuccess.jsx   # OAuth callback handler
+│   ├── Home.jsx          # Landing page
+│   ├── Auth.jsx          # Authentication page
+│   ├── Dashboard.jsx     # User dashboard
+│   └── Profile.jsx       # User profile
 ├── utils/
-│   └── ProtectedRoutes.jsx # Auth route wrapper
+│   ├── auth.js           # Auth utilities
+│   └── api.js            # API utilities
 ├── contexts/
-│   └── userContext.jsx    # User state management
+│   └── AuthContext.jsx   # Auth state management
 ├── App.jsx               # Main app component
 └── main.jsx             # Entry point
 ```

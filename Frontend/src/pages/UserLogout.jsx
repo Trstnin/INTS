@@ -1,28 +1,45 @@
 import axios from 'axios';
-import React from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const UserLogout = () => {
+  const navigate = useNavigate();
 
- const navigate = useNavigate();
- const token = localStorage.getItem('token');
+  useEffect(() => {
+    const token = localStorage.getItem('token');
 
- axios.post(`${import.meta.env.VITE_BASE_URL}/auth/logout`, {
-    headers : {
-        Authorization: `Bearer ${token}`
-    }
- }).then((response) => {
-    if(response.status === 200){
+    axios.post(
+      `${import.meta.env.VITE_BASE_URL}/auth/logout`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true, // If you're using cookies
+      }
+    )
+      .then((response) => {
+        if (response.status === 200) {
+          localStorage.removeItem('token');
+          toast.success('Logged out successfully');
+          setTimeout(()=>{
+            navigate('/signIn');
+          },1500)
+        }
+      })
+      .catch((err) => {
+        console.error("Logout failed:", err);
+        toast.error('Logout failed. Please try again.');
         localStorage.removeItem('token');
-        navigate('/signIn');
-    }
- })
+        setTimeout(()=>{
+          navigate('/signIn');
+        },1500)
+        
+      });
+  }, [navigate]);
 
+  return <div>Logging out...</div>;
+};
 
-
-  return (
-    <div>UserLogout</div>
-  )
-}
-
-export default UserLogout
+export default UserLogout;

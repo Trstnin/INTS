@@ -50,7 +50,6 @@ export const googleCallback = async (req, res) => {
           Email: email,
           Password: "", // No password for Google login
           googleId: googleId, // Store Google ID
-          avatarUrl: picture || "https://cdn1.iconfinder.com/data/icons/user-pictures/100/unknown-1024.png",
         });
       }
   

@@ -1,11 +1,12 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
-import BlacklistToken from '../src/models/blacklistModel.js';
-import userModel from '../src/models/userModel.js';
+import BlacklistToken from '../models/blacklistModel.js';
+import userModel from '../models/userModel.js';
 
 const authUser = async (req, res, next) => {
-  const authHeader = req.headers.Authorization;
+  const authHeader = req.headers.authorization;
   const token = req.cookies.token || (authHeader && authHeader.startsWith("Bearer ") && authHeader.split(" ")[1]);
+  
 
   if (!token) {
     return res.status(401).json({ error: "Unauthorized user - no token provided" });

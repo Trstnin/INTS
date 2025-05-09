@@ -14,18 +14,24 @@ A modern platform connecting startup enthusiasts, providing resources, and facil
 ## 🛠️ Technology Stack
 
 ### Frontend
-- React 19 with Vite
-- Tailwind CSS for styling
-- React Router v7 for navigation
-- Axios for API communication
-- Glass morphism UI design
+- React 18
+- Vite 5
+- Tailwind CSS 3
+- React Router 6
+- Axios 1.x
+- React Icons
+- React Toastify
+- Auth0 React SDK
 
 ### Backend
-- Node.js with Express 5
-- MongoDB with Mongoose
-- JWT for authentication
-- OAuth2 for Google login
-- Express Validator for data validation
+- Node.js 18+
+- Express 4.x
+- MongoDB 6.x
+- Mongoose 7.x
+- JSON Web Tokens
+- OAuth2 
+- Express Validator
+- Nodemailer
 
 ## 🚀 Quick Start
 
@@ -71,17 +77,24 @@ npm run dev
 ## 📁 Project Structure
 ```
 INTS/
-├── Frontend/               # React frontend (Vite)
+├── Frontend/                
 │   ├── src/
-│   │   ├── components/    # Reusable UI components
+│   │   ├── components/
+│   │   │   ├── auth/      # Authentication components
+│   │   │   ├── layout/    # Layout components
+│   │   │   ├── common/    # Reusable components
+│   │   │   └── features/  # Feature-specific components
 │   │   ├── pages/         # Page components
-│   │   └── utils/         # Utility functions
+│   │   ├── utils/         # Utility functions
+│   │   └── contexts/      # State management
 │   └── public/            # Static assets
-└── Backend/               # Node.js backend
+└── Backend/              
     ├── src/
     │   ├── controllers/   # Request handlers
     │   ├── models/        # Database models
     │   ├── routes/        # API routes
+    │   ├── middleware/    # Custom middleware
+    │   ├── config/        # Configuration files
     │   └── utils/         # Utility functions
     └── server.js          # Entry point
 ```

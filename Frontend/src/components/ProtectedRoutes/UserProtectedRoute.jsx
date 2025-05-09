@@ -7,46 +7,46 @@ const UserProtectedRoute = ({ children }) => {
   const navigate = useNavigate();
   const { setUser } = useContext(UserDataContext);
   const [isLoading, setIsLoading] = useState(true);
-  
 
   useEffect(() => {
-    const token = localStorage.getItem("token"); // move this line inside useEffect
+    const token = localStorage.getItem("token");
     if (!token) {
       navigate("/signIn");
       return;
     }
-  
+
     const fetchUserProfile = async () => {
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_BASE_URL}/auth/profile`,
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              authorization: `Bearer ${token}`,
             },
           }
         );
-  
+
         if (response.status === 201) {
-          setUser(response.data.user);
+          setUser(response.data.user); // make sure your backend sends `user` in `response.data`
           setIsLoading(false);
+        } else {
+          throw new Error("Unauthorized");
         }
       } catch (error) {
-        console.log("profile fetch error:", error);
+        console.error("Profile fetch error:", error);
         localStorage.removeItem("token");
         navigate("/signIn");
       }
     };
-  
-    fetchUserProfile();
-  }, [navigate, setUser]); // removed `token` from dependencies
-  
 
-  if(isLoading) {
+    fetchUserProfile();
+  }, [navigate, setUser]);
+
+  if (isLoading) {
     return <div>Loading...</div>;
   }
 
-  return <>{children}</>
+  return <>{children}</>;
 };
 
 export default UserProtectedRoute;

@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "name": "Rhino",
+    "image_url": "https://cdn-icons-gif.flaticon.com/15161/15161605.gif"
+ },
+ {
+  "id": 2,
+  "name": "Elephant",
+  "image_url": "https://cdn-icons-gif.flaticon.com/15161/15161640.gif"
+ },
+ {
+  "id": 3,
+  "name": "Toucan",
+  "image_url": "https://cdn-icons-gif.flaticon.com/15161/15161658.gif"
+ },
+ {
+  "id": 4,
+  "name": "Snake",
+  "image_url": "https://cdn-icons-gif.flaticon.com/15161/15161634.gif"
+ },
+ {
+  "id": 5,
+  "name": "Panda",
+  "image_url": "https://cdn-icons-gif.flaticon.com/15161/15161620.gif"
+ }]
+ 
+ 

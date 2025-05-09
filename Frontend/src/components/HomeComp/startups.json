@@ -1,0 +1,262 @@
+ [
+  {
+    "name": "Programiz",
+    "description": "An online platform offering programming tutorials for beginners, covering languages like Python, C, and C++.",
+    "website": "https://www.programiz.com",
+    "industry": ["EdTech"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 1,
+      "stage": "Seed",
+      "investors": ["Private Angel Investors"]
+    },
+    "bgColor": "#2E3B8B" 
+  },
+  {
+    "name": "Upaya CityCargo",
+    "description": "An on-demand logistics platform providing last-mile delivery services for businesses and individuals.",
+    "website": "https://citycargo.upaya.com.np",
+    "industry": ["Logistics", "Transportation"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 2,
+      "stage": "Series A",
+      "investors": ["True North Associates"]
+    },
+    "bgColor": "#FFB646" 
+  },
+  {
+    "name": "Naxa",
+    "description": "A geospatial technology company offering GIS solutions, mapping, and data visualization services.",
+    "website": "https://naxa.com.np",
+    "industry": ["Geospatial Technology", "Software"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 1,
+      "stage": "Seed",
+      "investors": ["Private Angel Investors"]
+    },
+    "bgColor": "#0066B3" 
+  },
+  {
+    "name": "Basobaas",
+    "description": "A real estate platform connecting buyers and sellers, providing property listings and related services.",
+    "website": "https://basobaas.com",
+    "industry": ["Real Estate", "PropTech"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 1,
+      "stage": "Seed",
+      "investors": ["Private Angel Investors"]
+    },
+    "bgColor": "#1C4B87" 
+  },
+  {
+    "name": "OkDam",
+    "description": "An e-commerce platform offering a wide range of products including electronics, clothing, and home appliances.",
+    "website": "https://www.okdam.com",
+    "industry": ["E-commerce"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 1,
+      "stage": "Seed",
+      "investors": ["Private Angel Investors"]
+    },
+    "bgColor": "#F5A623" 
+  },
+  {
+    "name": "Vairav Technology",
+    "description": "A cybersecurity firm providing managed security services to protect businesses from digital threats.",
+    "website": "https://vairav.net",
+    "industry": ["Cybersecurity", "IT Services"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 1,
+      "stage": "Seed",
+      "investors": ["Private Angel Investors"]
+    },
+    "bgColor": "#262F3D" 
+  },
+  {
+    "name": "LogicaBeans",
+    "description": "A software development company specializing in web and mobile application development for global clients.",
+    "website": "https://logicabeans.com",
+    "industry": ["Software Development", "IT Services"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 1,
+      "stage": "Seed",
+      "investors": ["Private Angel Investors"]
+    },
+    "bgColor": "#3D9EE5" 
+  },
+  {
+    "name": "Neema Academy",
+    "description": "An online learning platform offering interactive courses for students across various subjects.",
+    "website": "https://neemaacademy.com",
+    "industry": ["EdTech"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 1,
+      "stage": "Seed",
+      "investors": ["Private Angel Investors"]
+    },
+    "bgColor": "#2E8B57" 
+  },
+  {
+    "name": "aQysta",
+    "description": "A social enterprise providing sustainable irrigation solutions like the Barsha Pump for smallholder farmers.",
+    "website": "https://www.aqysta.com",
+    "industry": ["AgriTech", "Sustainability"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 2,
+      "stage": "Series A",
+      "investors": ["Impact Investors"]
+    },
+    "bgColor": "#44BFC3" 
+  },
+  {
+    "name": "Bijuli Power",
+    "description": "A company promoting electric vehicle adoption by providing financing solutions and building charging infrastructure.",
+    "website": "https://bijulipower.com",
+    "industry": ["Clean Energy", "Transportation"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 1,
+      "stage": "Seed",
+      "investors": ["Private Angel Investors"]
+    },
+    "bgColor": "#00A3B8" 
+  },
+  {
+    "name": "Fusemachines Nepal",
+    "description": "AI solutions and education provider aiming to democratize AI.",
+    "website": "https://www.fusemachines.com",
+    "industry": ["Artificial Intelligence", "Education"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 3,
+      "stage": "Series B",
+      "investors": ["Newtown Partners", "Nepal Ventures"]
+    },
+    "bgColor": "#FF4B5C" 
+  },
+  {
+    "name": "Khalti",
+    "description": "Digital wallet and payment gateway facilitating online transactions.",
+    "website": "https://khalti.com",
+    "industry": ["Fintech", "Payments"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 2,
+      "stage": "Series A",
+      "investors": ["Global IME Bank", "Nepal Investment Bank"]
+    },
+    "bgColor": "#4A90E2" 
+  },
+  {
+    "name": "SastoDeal",
+    "description": "E-commerce platform offering a wide range of products.",
+    "website": "https://www.sastodeal.com",
+    "industry": ["E-commerce"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 2,
+      "stage": "Series A",
+      "investors": ["Dolma Impact Fund"]
+    },
+    "bgColor": "#FF9900" 
+  },
+  {
+    "name": "Tudoholic",
+    "description": "Online fashion and lifestyle store catering to Nepali consumers.",
+    "website": "https://www.tudoholic.com",
+    "industry": ["E-commerce", "Fashion"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 1,
+      "stage": "Seed",
+      "investors": ["Private Angel Investors"]
+    },
+    "bgColor": "#E0A9B0" 
+  },
+  {
+    "name": "eSewa",
+    "description": "Nepal's first online payment gateway facilitating various transactions.",
+    "website": "https://www.esewa.com.np",
+    "industry": ["Fintech", "Payments"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 3,
+      "stage": "Series B",
+      "investors": ["F1Soft International"]
+    },
+    "bgColor": "#F0A500" 
+  },
+  {
+    "name": "Foodmandu",
+    "description": "Online food delivery service connecting restaurants and customers.",
+    "website": "https://www.foodmandu.com",
+    "industry": ["Food Delivery", "Logistics"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 2,
+      "stage": "Series A",
+      "investors": ["True North Associates"]
+    },
+    "bgColor": "#F5C41D" 
+  },
+  {
+    "name": "Hamro Patro",
+    "description": "Popular Nepali calendar app offering various utilities.",
+    "website": "https://www.hamropatro.com",
+    "industry": ["Productivity", "Utilities"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 1,
+      "stage": "Seed",
+      "investors": ["Private Angel Investors"]
+    },
+    "bgColor": "#F4772E" 
+  },
+  {
+    "name": "MeroJob",
+    "description": "Online job portal connecting employers and job seekers.",
+    "website": "https://www.merojob.com",
+    "industry": ["Recruitment", "HR Tech"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 1,
+      "stage": "Seed",
+      "investors": ["Private Angel Investors"]
+    },
+    "bgColor": "#4C96F6" 
+  },
+  {
+    "name": "Karkhana",
+    "description": "Education company promoting STEAM education through hands-on learning.",
+    "website": "https://www.karkhana.asia",
+    "industry": ["Education", "EdTech"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 1,
+      "stage": "Seed",
+      "investors": ["Private Angel Investors"]
+    },
+    "bgColor": "#F28E01" 
+  },
+  {
+    "name": "Tudip Technologies",
+    "description": "Software services company offering web and mobile solutions.",
+    "website": "https://www.tudip.com",
+    "industry": ["Software Development", "IT Services"],
+    "location": "Kathmandu, Nepal",
+    "funding": {
+      "rounds": 1,
+      "stage": "Bootstrapped",
+      "investors": []
+    },
+    "bgColor": "#00A5B3"
+  }
+]
