@@ -5,12 +5,13 @@ Modern React-based frontend for the Into Startups platform featuring OAuth2 auth
 ## 🎯 Features
 
 - Google OAuth2 Authentication
+- Interactive Startup Card Swiping
+- Real-time Community Management
+- Dynamic Startup Suggestions
 - Glass Morphism UI Design
-- Responsive Layout
-- Protected Routes
-- Form Validation
+- Custom Preference Name System
 - JWT Token Management
-- Smooth Page Transitions
+- Real-time Notifications
 
 ## 🛠️ Tech Stack
 
@@ -28,22 +29,23 @@ Modern React-based frontend for the Into Startups platform featuring OAuth2 auth
 ```
 src/
 ├── components/
-│   ├── auth/             # Authentication components
-│   ├── layout/           # Layout components
-│   ├── common/           # Reusable components
-│   └── features/         # Feature-specific components
+│   ├── HomeComp/           # Home page components
+│   │   ├── ScrollableCard.jsx    # Swipeable startup cards
+│   │   ├── CommunitiesSection.jsx # Sidebar with startup groups
+│   │   ├── Navbar.jsx      # Navigation header
+│   │   └── ProfileDropdown.jsx   # User profile menu
+│   ├── Popup/             # Modal components
+│   │   ├── PopupPreferenceName.jsx
+│   │   └── PopupLogout.jsx
+│   └── common/            # Shared components
 ├── pages/
-│   ├── Home.jsx          # Landing page
-│   ├── Auth.jsx          # Authentication page
-│   ├── Dashboard.jsx     # User dashboard
-│   └── Profile.jsx       # User profile
-├── utils/
-│   ├── auth.js           # Auth utilities
-│   └── api.js            # API utilities
+│   ├── Home.jsx          # Main dashboard
+│   ├── Landing.jsx       # Landing page
+│   ├── Login.jsx         # Registration page
+│   └── SignIn.jsx        # Login page
 ├── contexts/
-│   └── AuthContext.jsx   # Auth state management
-├── App.jsx               # Main app component
-└── main.jsx             # Entry point
+│   └── userContext.jsx   # User state management
+└── utils/                # Utility functions
 ```
 
 ## ⚡ Quick Start

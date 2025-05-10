@@ -4,12 +4,14 @@ A modern platform connecting startup enthusiasts, providing resources, and facil
 
 ## ✨ Key Features
 
+- Startup Community Discovery System
+- Interactive Card Swiping Interface
+- Real-time Group Management
+- Custom Username Generation
 - OAuth2 Authentication with Google
-- Interactive Landing Page
-- User Profile Management
 - Secure JWT-based Sessions
-- Modern UI with Glass Morphism Design
-- Responsive Cross-platform Experience
+- Glass Morphism Design System
+- Cross-platform Responsiveness
 
 ## 🛠️ Technology Stack
 
@@ -32,6 +34,13 @@ A modern platform connecting startup enthusiasts, providing resources, and facil
 - OAuth2 
 - Express Validator
 - Nodemailer
+
+### Additional Features
+- React Tinder Card
+- Material UI Components
+- Custom Animation Effects
+- Real-time Group Management
+- Dynamic Card Swiping
 
 ## 🚀 Quick Start
 
@@ -80,23 +89,20 @@ INTS/
 ├── Frontend/                
 │   ├── src/
 │   │   ├── components/
-│   │   │   ├── auth/      # Authentication components
-│   │   │   ├── layout/    # Layout components
-│   │   │   ├── common/    # Reusable components
-│   │   │   └── features/  # Feature-specific components
-│   │   ├── pages/         # Page components
-│   │   ├── utils/         # Utility functions
-│   │   └── contexts/      # State management
-│   └── public/            # Static assets
+│   │   │   ├── HomeComp/   # Home components
+│   │   │   ├── Popup/      # Modal components
+│   │   │   └── common/     # Shared components
+│   │   ├── pages/          # Page components
+│   │   ├── contexts/       # State management
+│   │   └── utils/          # Utility functions
+│   └── public/             # Static assets
 └── Backend/              
     ├── src/
-    │   ├── controllers/   # Request handlers
-    │   ├── models/        # Database models
-    │   ├── routes/        # API routes
-    │   ├── middleware/    # Custom middleware
-    │   ├── config/        # Configuration files
-    │   └── utils/         # Utility functions
-    └── server.js          # Entry point
+    │   ├── controllers/    # Request handlers
+    │   ├── models/         # Database models
+    │   ├── routes/         # API routes
+    │   └── utils/          # Utility functions
+    └── server.js           # Entry point
 ```
 
 ## 🤝 Contributing

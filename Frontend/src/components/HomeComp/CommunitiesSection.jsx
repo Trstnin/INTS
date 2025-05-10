@@ -1,4 +1,4 @@
-import * as React from 'react';
+import * as React from "react";
 import {
   Box,
   CssBaseline,
@@ -12,38 +12,136 @@ import {
   Toolbar,
   Typography,
   Avatar,
-} from '@mui/material';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-import startupsData from './startups.json'; // Your JSON file with name and bgColor
+} from "@mui/material";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import startupsData from "./startups.json"; // Your JSON file with name and bgColor
+import { UserDataContext } from "../../contexts/userContext";
+import ScrollableCard from "./ScrollableCard";
+import { ToastContainer,toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const drawerWidth = 240;
 
 const zincTheme = createTheme({
   palette: {
-    mode: 'dark',
+    mode: "dark",
     background: {
-      default: '#10141E',
-      paper: '#141B2D',
+      default: "rgba(16, 20, 30, 0.95)",
+      paper: "rgba(20, 27, 45, 0.95)",
+    },
+    primary: {
+      main: "#3b82f6",
     },
     text: {
-      primary: '#fff',
-      secondary: '#b0b0b0',
+      primary: "#fff",
+      secondary: "#94a3b8",
+    },
+  },
+  components: {
+    MuiDrawer: {
+      styleOverrides: {
+        paper: {
+          backgroundImage:
+            "linear-gradient(180deg, rgba(16, 20, 30, 0.95) 0%, rgba(20, 27, 45, 0.95) 100%)",
+          backdropFilter: "blur(10px)",
+        },
+      },
+    },
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          transition: "all 0.2s ease-in-out",
+          "&:hover": {
+            backgroundColor: "rgba(59, 130, 246, 0.08)",
+            transform: "translateX(4px)",
+          },
+        },
+      },
     },
   },
 });
 
-export default function StartupsSidebar() {
-  const [joinedStartups, setJoinedStartups] = React.useState([]);
+// Removed from the top level and moved inside the component
 
-  const handleJoin = (startupName) => {
-    if (!joinedStartups.includes(startupName)) {
-      setJoinedStartups((prev) => [startupName, ...prev]);
+export default function StartupsSidebar() {
+  const { user } = React.useContext(UserDataContext);
+  const [joinedStartups, setJoinedStartups] = React.useState([]);
+  const handleJoin = async (startupName) => {
+    if (joinedStartups.includes(startupName)) return;
+
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/group/join-group`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user: user._id,
+            group: startupName,
+          }),
+        }
+      );
+
+      if (res.ok) {
+        setJoinedStartups((prev) => [startupName, ...prev]);
+      } else {
+        toast.error("Already joined group")
+      }
+    } catch (error) {
+      console.log("Error:", error);
     }
   };
 
+ const handleLeave = async(startupName) => {
+  console.log(startupName)
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/group/leave-group`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user: user._id,
+            group: startupName,
+          })
+        }
+      )
+
+      if(res.ok){
+        setJoinedStartups((prev) => prev.filter((name) => name !==startupName))
+      }else{
+        console.log("Failed to leave group");
+      }
+    } catch (error) {
+       console.log("Error:", error);
+    }
+ } 
+
+  React.useEffect(() => {
+    const fetchJoinedStartups = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/group/join-group?userId=${user._id}`
+        );
+        const data = await res.json();
+        const groupNames = data.map((group) => group.group);
+        setJoinedStartups(groupNames);
+      } catch (error) {
+        console.error("Finished to fetch joined startups:", error);
+      }
+    };
+    if (user?._id) {
+      fetchJoinedStartups();
+    }
+  }, [user?._id]);
+
   return (
     <ThemeProvider theme={zincTheme}>
-      <Box sx={{ display: 'flex' }}>
+      <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <Drawer
           variant="permanent"
@@ -51,19 +149,19 @@ export default function StartupsSidebar() {
           sx={{
             width: drawerWidth,
             flexShrink: 0,
-            '& .MuiDrawer-paper': {
+            "& .MuiDrawer-paper": {
               width: drawerWidth,
-              boxSizing: 'border-box',
-              height: '100vh',
-              position: 'fixed',
+              boxSizing: "border-box",
+              height: "100vh",
+              position: "fixed",
               top: 0,
-              backgroundColor: '#10141E',
-              color: '#fff',
-              overflowY: 'scroll',
-              overflowX: 'hidden',
-              scrollbarWidth: 'none',
-              '&::-webkit-scrollbar': { display: 'none' },
-              borderRight: '1px solid rgba(255, 255, 255, 0.1)',
+              backgroundColor: "background.default",
+              borderRight: "1px solid rgba(255, 255, 255, 0.05)",
+              boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+              overflowY: "scroll",
+              overflowX: "hidden",
+              scrollbarWidth: "none",
+              "&::-webkit-scrollbar": { display: "none" },
             },
           }}
         >
@@ -72,8 +170,9 @@ export default function StartupsSidebar() {
             <Typography variant="h6" sx={{ mb: 2 }}>
               Suggested Startups
             </Typography>
-            <Typography variant="body2" sx={{ color: 'gray' }}>
-              Here are some exciting startups to explore. Join the ones that interest you!
+            <Typography variant="body2" sx={{ color: "gray" }}>
+              Here are some exciting startups to explore. Join the ones that
+              interest you!
             </Typography>
           </Box>
 
@@ -87,25 +186,61 @@ export default function StartupsSidebar() {
               </Typography>
               <List>
                 {joinedStartups.map((startupName, index) => {
-                  const startup = startupsData.find((s) => s.name === startupName);
+                  const startup = startupsData.find(
+                    (s) => s.name === startupName
+                  );
                   return (
                     <ListItem key={index} disablePadding>
                       <ListItemButton
                         sx={{
                           borderRadius: 2,
-                          backgroundColor: '#0D1B2A', // Dark blue background
+                          background:
+                            "linear-gradient(135deg, #0D1B2A 0%, #1E293B 100%)",
                           mb: 1,
+                          px: 2,
+                          py: 1.5,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          transition: "all 0.25s ease-in-out",
+                          boxShadow: "0 2px 6px rgba(0, 0, 0, 0.2)",
+                          "&:hover": {
+                            transform: "translateX(4px)",
+                            background:
+                              "linear-gradient(135deg, #1E293B 0%, #334155 100%)",
+                          },
                         }}
                       >
-                        <Avatar
+                        <Box sx={{ display: "flex", alignItems: "center" }}>
+                          <Avatar
+                            sx={{
+                              backgroundColor: startup?.bgColor || "#3b82f6",
+                              marginRight: 2,
+                              fontWeight: 600,
+                              fontSize: "1rem",
+                            }}
+                          >
+                            {startup?.name?.[0]}
+                          </Avatar>
+                          <ListItemText
+                            primary={startupName}
+    
+                          />
+                        </Box>
+                        <Button
+                          onClick={() => handleLeave(startupName)}
                           sx={{
-                            backgroundColor: startup?.bgColor || '#1e3a8a',
-                            marginRight: 2,
+                            textTransform: "none",
+                            borderRadius: "5px",
+                            fontSize: "0.75rem",
+                            transition: "all 0.2s ease-in-out",
+                            color:'red',
+                            p:1,
+                            overflow:'hidden' 
                           }}
                         >
-                          {startup?.name?.[0]}
-                        </Avatar>
-                        <ListItemText primary={startupName} />
+                          Exit
+                        </Button>
                       </ListItemButton>
                     </ListItem>
                   );
@@ -121,11 +256,20 @@ export default function StartupsSidebar() {
             {startupsData
               .filter((startup) => !joinedStartups.includes(startup.name))
               .map((startup) => (
-                <ListItem key={startup.name} disablePadding>
-                  <ListItemButton sx={{ borderRadius: 2, mb: 1 }}>
+                <ListItem key={startup.name} disablePadding sx={{ mb: 1 }}>
+                  <ListItemButton
+                    sx={{
+                      borderRadius: 2,
+                      transition: "all 0.2s ease-in-out",
+                      "&:hover": {
+                        backgroundColor: "rgba(59, 130, 246, 0.08)",
+                        transform: "translateX(4px)",
+                      },
+                    }}
+                  >
                     <Avatar
                       sx={{
-                        backgroundColor: startup.bgColor || '#1e3a8a',
+                        backgroundColor: startup.bgColor || "#1e3a8a",
                         marginRight: 2,
                       }}
                     >
@@ -136,7 +280,15 @@ export default function StartupsSidebar() {
                       variant="contained"
                       color="primary"
                       onClick={() => handleJoin(startup.name)}
-                      sx={{ marginLeft: 2 }}
+                      sx={{
+                        marginLeft: 2,
+                        textTransform: "none",
+                        borderRadius: "12px",
+                        boxShadow: "none",
+                        "&:hover": {
+                          boxShadow: "0 4px 12px rgba(59, 130, 246, 0.3)",
+                        },
+                      }}
                     >
                       Join
                     </Button>
@@ -149,8 +301,17 @@ export default function StartupsSidebar() {
         </Drawer>
 
         {/* Main Content */}
-        <Box component="main" sx={{ flexGrow: 1, p: 3, ml: `${drawerWidth}px` }}>
-          {/* Optional main content */}
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1, // Adjusted margin to reduce the space
+            height: "100vh",
+            overflowY: "scroll",
+            scrollSnapType: "y mandatory",
+            backgroundColor: "background.default",
+          }}
+        >
+          <ScrollableCard setJoinedStartups={setJoinedStartups}/>
         </Box>
       </Box>
     </ThemeProvider>

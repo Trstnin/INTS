@@ -5,7 +5,9 @@ import Navbar from '../components/HomeComp/Navbar'
 import CommunitiesSection from '../components/HomeComp/CommunitiesSection'
 import PopupPreferenceName from '../components/Popup/PopupPreferenceName'
 
+
 const Home = () => {
+
   const [showNamePopup, setShowNamePopup] = useState(false)
   const { user, setUser } = useContext(UserDataContext)
    
