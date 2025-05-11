@@ -12,7 +12,7 @@ authRouter.get('/google',loginWithGoogle);
 authRouter.get('/google/callback',googleCallback);
 authRouter.post('/logout',authUser,logout);
 authRouter.get('/profile',authUser,profile);
-authRouter.put('/preferenceName',authUser,createPreferenceName);
+authRouter.post('/preferenceName',authUser,createPreferenceName);
 authRouter.get('/preferenceName', authUser, getPreferenceName);
 
 

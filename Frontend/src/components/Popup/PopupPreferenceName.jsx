@@ -44,7 +44,7 @@ const PopupPreferenceName = ({ setShowNamePopup, setUser }) => {
   const handleFinish = async () => {
     try {
       const response = await axios.post(
-        `${import.meta.env.VITE_BASE_URL}/auth/preference-name`,
+        `${import.meta.env.VITE_BASE_URL}/auth/preferenceName`,
         { preferenceName: generatedName },
         {
           headers: {
@@ -53,13 +53,14 @@ const PopupPreferenceName = ({ setShowNamePopup, setUser }) => {
         }
       );
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         // Update user context with new preference name
         setUser(prev => ({
           ...prev,
           preferenceName: generatedName
         }));
         setShowNamePopup(false);
+        window.location.reload();
       }
     } catch (error) {
       console.error('Error saving preference name:', error);

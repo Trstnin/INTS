@@ -7,6 +7,8 @@ import SignIn from "./pages/SignIn";
 import OauthSuccess from "./pages/OauthSuccess";
 import UserProtectedRoute from "./components/ProtectedRoutes/UserProtectedRoute";
 import UserLogout from "./pages/UserLogout";
+import Chat from "./pages/Chat";
+import ChatDefault from "./pages/ChatDefault";
 
 const App = () => {
   return (
@@ -34,6 +36,31 @@ const App = () => {
             </UserProtectedRoute>
           }
         ></Route>
+
+        <Route
+          path="/Chat/:startupName"
+          element={
+            <UserProtectedRoute>
+              <Chat />
+            </UserProtectedRoute>
+          }
+        ></Route>
+        <Route
+          path="/Chat"
+          element={
+            <UserProtectedRoute>
+              <ChatDefault />
+            </UserProtectedRoute>
+          }
+        ></Route>
+
+        {/* 404 fallback */}
+        <Route
+          path="*"
+          element={
+            <h1 className="text-center text-white">404 - Page Not Found</h1>
+          }
+        />
       </Routes>
     </>
   );

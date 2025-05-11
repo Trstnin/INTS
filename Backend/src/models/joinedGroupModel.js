@@ -2,7 +2,8 @@ import mongoose from 'mongoose';
 
 const joinedGroupSchema = new mongoose.Schema({
     group: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Group',
         required: true,
     },
     user: {

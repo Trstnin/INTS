@@ -1,66 +1,71 @@
 import joinedGroup from "../models/joinedGroupModel.js";
+import Group from "../models/groupModel.js";
 
-export
-   const newlyJoinedGroup = async (req, res) => {
-      const { group, user } = req.body
+export const newlyJoinedGroup = async (req, res) => {
+   const { group, user } = req.body;
 
-      try {
-         //Optional: check if already joined:
-         const alreadyJoined = await joinedGroup.findOne({ user: user, group });
+   try {
+      //optional : check if user alredy belongs to the group.
+      const alreadyJoined = await joinedGroup.findOne({ user, group });
 
-         if (alreadyJoined) {
-            return res.status(400).json({ message: "user already joined this group" });
-         }
-
-         //Save join:
-         const newJoin = new joinedGroup({
-            user, group
-         })
-         await newJoin.save();
-
-         res.status(201).json({ message: 'Group joined successfully' });
-      } catch (error) {
-         console.log(error);
-         res.status(500).json({ message: 'Error joining group' });
+      if (alreadyJoined) {
+         return res.status(400).json({ message: "User already joined this group" });
       }
+
+      //optional: check if group exists:
+
+      const groupExists = await Group.findById(group);
+      if (!groupExists) {
+         return res.status(404).json({ message: "Group not found" });
+      }
+
+      //saving the new group members
+      const newJoin = new joinedGroup({ user, group });
+      await newJoin.save();
+
+      res.status(201).json({ message: "Group joined successfully" });
+
+   } catch (error) {
+      console.log(error);
+      res.status(500).json({ message: "Error Joining group" });
    }
+}
 
 export const getJoinedGroup = async (req, res) => {
    const { userId } = req.query;
-   if (!userId) return res.status(400).json({ message: 'userId required' });
+   if (!userId) return res.status(400).json({ message: "userId required" });
 
    try {
-      const joined = await joinedGroup.find({ user: userId });
+      //Fetch all the groups the user is part of by looking for userid in the joinedGroup model
+      const joined = await joinedGroup.find({ user: userId })
+         
+
+      //Return the joined group data
       res.json(joined);
-
    } catch (error) {
-      res.status(500).json({ message: 'Failed to fetch joined group' });
+       console.log(error);
+       res.status(500).json({message: 'Failed to fetch joined groups '});
    }
-}
+};
 
-export const leaveJoinedGroup = async (req, res) => {
-   const { user, group } = req.body;
+export const leaveJoinedGroup = async (req,res) => {
+   const {user, group} = req.body;
 
-   if (!user || !group) {
-      return res.status(400).json({ error: "Missing user or group" });
+   if(!user || !group){
+      return res.status(400).json({error: "Missing user or group"});
    }
-
    try {
-      const updatedGroup = await joinedGroup.findOneAndDelete(
-         { group: group },
-         { $pull: { members: user } },
-         { new: true }
-      );
+      
+   //Find and remove the user from the joined group
+   const removeGroup = await joinedGroup.findOneAndDelete({user,group});
 
-      if (!updatedGroup) {
-         return res.status(404).json({ error: "Group not found" });
-      }
-
-      res.status(200).json({ message: "Left group successfully", group: updatedGroup });
+   if(!removeGroup){
+      return res.status(404).json({message: "User is not a member of this group "});
+   }
+     res.status(200).json({message: "Left group successfully"});
 
    } catch (error) {
       console.log("Error leaving group:", error);
-      res.status(500).json({ error: "Internal server error" });
+      res.status(500).json({message: "Internal server error"});
    }
-}
-
+};

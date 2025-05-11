@@ -3,8 +3,9 @@ import TinderCard from "react-tinder-card";
 import { Box, Typography, Avatar, Button } from "@mui/material";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import startupsData from "./startups.json";
 import { UserDataContext } from "../../contexts/userContext";
+import { useStartupsData } from "../../contexts/GroupContext";
+
 
 function shuffledArray(array){
  const shuffled = [...array];
@@ -17,46 +18,52 @@ function shuffledArray(array){
 
 
 
-const SwipeScrollCard = ({ setJoinedStartups }) => {
+const ScrollableCard = ({ joinedStartups, setJoinedStartups }) => {
   const { user } = useContext(UserDataContext);
   const [index, setIndex] = useState(0);
-  const [startups,setStartups] = useState([]);
-
+  const [startups, setStartups] = useState([]);
+  const { startupsData } = useStartupsData();
 
   useEffect(() => {
-    setStartups(shuffledArray(startupsData));
-  },[]);
+    const joinedGroupIds = new Set(joinedStartups.map((s) => s.groupId));
+    const unjoinedStartups = startupsData.filter(
+      (startup) => !joinedGroupIds.has(startup._id)
+    );
+    setStartups(shuffledArray(unjoinedStartups));
+  }, [startupsData, joinedStartups]);
 
-  const handleSwipe = async (dir, name) => {
-    if (dir === "right") {
-      try {
-        const res = await fetch(
-          `${import.meta.env.VITE_BASE_URL}/group/join-group`,
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-              user: user._id,
-              group: name,
-            }),
-          }
-        );
-        if (res.ok) {
-          toast.success(`🎉 You joined ${name}'s group!`);
-          setJoinedStartups((prev) =>
-            prev.filter((startupName) => startupName !== name)
-          );
-          setTimeout(() => window.location.reload(), 500); // reload after toast
-        } else {
-          toast.error("Already joined group!");
+  const handleSwipe = async (dir, startup) => {
+  if (dir === "right") {
+    try {
+      const res = await fetch(
+        `${import.meta.env.VITE_BASE_URL}/group/join-group`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user: user._id,
+            group: startup._id, // ✅ Send group ID, not name
+          }),
         }
-      } catch (error) {
-        console.log("Error:", error);
+      );
+
+      if (res.ok) {
+        toast.success(`🎉 You joined ${startup.name}'s group!`);
+        setJoinedStartups((prev) =>
+          prev.filter((s) => s.groupId !== startup._id)
+        );
+        setTimeout(() => window.location.reload(), 100);
+      } else {
+        toast.error("Already joined group!");
       }
+    } catch (error) {
+      console.log("Error:", error);
     }
-  };
+  }
+};
+
 
   if (index >= startups.length) {
     return (
@@ -77,106 +84,113 @@ const SwipeScrollCard = ({ setJoinedStartups }) => {
   }
 
   return (
-    <Box
-      sx={{
-        backgroundColor: "#18181B",
-        minHeight: "100vh",
-        overflowY: "scroll",
-        py: 6,
-        px: 2,
-      }}
-    >
-      {startups.slice(index).map((startup) => (
-        <TinderCard
-          key={startup.name}
-          onSwipe={(dir) => {
-            if (dir === "right") {
-              handleSwipe(dir, startup.name);
-              setIndex((prev) => prev + 1);
-            }
+<Box
+  sx={{
+    backgroundColor: "#18181B",
+    minHeight: "100vh",
+    overflow: "hidden", // Hide both horizontal and vertical scrollbars
+    py: 6,
+    px: 2,
+  }}
+>
+  {startups.slice(index).map((startup) => (
+ <TinderCard
+  key={startup._id}
+  onSwipe={(dir) => {
+    if (dir === "right") {
+      handleSwipe(dir, startup); // ✅ pass the full startup object
+      setIndex((prev) => prev + 1);
+    }
+  }}
+  preventSwipe={["left", "up", "down"]}
+>
+
+      <Box
+        sx={{
+          width: 360,
+          mx: "auto",
+          mb: 6,
+          background:
+            "linear-gradient(45deg, rgba(30,41,59,0.85), rgba(15,23,42,0.85))",
+          borderRadius: "24px",
+          boxShadow: "0 12px 30px rgba(0,0,0,0.3)",
+          overflow: "hidden", // Hide the scrollbars for individual cards as well
+          px: 4,
+          py: 5,
+          "&::-webkit-scrollbar": { display: "none" }, // Ensures no scrollbar on webkit browsers
+          "&": {
+            msOverflowStyle: "none", // Hides scrollbar in IE and Edge
+            scrollbarWidth: "none",  // Hides scrollbar in Firefox
+          },
+        }}
+      >
+        <Avatar
+          sx={{
+            width: 100,
+            height: 100,
+            bgcolor: startup.bgColor || "#3b82f6",
+            fontSize: "2.5rem",
+            fontWeight: "bold",
+            mb: 3,
+            mx: "auto",
           }}
-          preventSwipe={["left", "up", "down"]}
         >
-          <Box
+          {startup.name[0]}
+        </Avatar>
+
+        <Typography
+          variant="h5"
+          sx={{
+            fontWeight: 600,
+            color: "#fff",
+            textAlign: "center",
+            mb: 2,
+          }}
+        >
+          {startup.name}
+        </Typography>
+
+        <Typography
+          variant="body1"
+          sx={{
+            color: "#cbd5e1",
+            lineHeight: 1.8,
+            fontSize: "1rem",
+            textAlign: "center",
+            mb: 3,
+          }}
+        >
+          {startup.description}
+          <br />
+          This startup focuses on innovation and growth, building the
+          future through technology and creativity.
+        </Typography>
+
+        <Box textAlign="center">
+          <Button
+            variant="contained"
             sx={{
-              width: 360,
-              mx: "auto",
-              mb: 6,
-              background:
-                "linear-gradient(45deg, rgba(30,41,59,0.85), rgba(15,23,42,0.85))",
-              borderRadius: "24px",
-              boxShadow: "0 12px 30px rgba(0,0,0,0.3)",
-              overflowY: "auto",
               px: 4,
-              py: 5,
-              "&::-webkit-scrollbar": { width: "0px" },
+              py: 1.5,
+              fontSize: "1rem",
+              borderRadius: "12px",
+              background: "linear-gradient(45deg, #3b82f6, #60a5fa)",
+              color: "#fff",
             }}
+            onClick={() => window.open(startup.website, "_blank")}
           >
-            <Avatar
-              sx={{
-                width: 100,
-                height: 100,
-                bgcolor: startup.bgColor || "#3b82f6",
-                fontSize: "2.5rem",
-                fontWeight: "bold",
-                mb: 3,
-                mx: "auto",
-              }}
-            >
-              {startup.name[0]}
-            </Avatar>
+            Visit Website
+          </Button>
+        </Box>
+      </Box>
+    </TinderCard>
+  ))}
 
-            <Typography
-              variant="h5"
-              sx={{
-                fontWeight: 600,
-                color: "#fff",
-                textAlign: "center",
-                mb: 2,
-              }}
-            >
-              {startup.name}
-            </Typography>
+  <ToastContainer />
+</Box>
 
-            <Typography
-              variant="body1"
-              sx={{
-                color: "#cbd5e1",
-                lineHeight: 1.8,
-                fontSize: "1rem",
-                textAlign: "center",
-                mb: 3,
-              }}
-            >
-              {startup.description}
-              <br />
-              This startup focuses on innovation and growth, building the
-              future through technology and creativity.
-            </Typography>
 
-            <Box textAlign="center">
-              <Button
-                variant="contained"
-                sx={{
-                  px: 4,
-                  py: 1.5,
-                  fontSize: "1rem",
-                  borderRadius: "12px",
-                  background: "linear-gradient(45deg, #3b82f6, #60a5fa)",
-                  color: "#fff",
-                }}
-                onClick={() => window.open(startup.website, "_blank")}
-              >
-                Visit Website
-              </Button>
-            </Box>
-          </Box>
-        </TinderCard>
-      ))}
-
-      <ToastContainer />
-    </Box>
   );
 };
 
-export default SwipeScrollCard;
+export default ScrollableCard;

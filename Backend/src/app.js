@@ -4,6 +4,7 @@ import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import appRouter from './routes/appRouter.js';
 import morgan from 'morgan'
+import { getAllGroups } from './controllers/groupController.js';
 
 const app = express();
 
@@ -15,5 +16,6 @@ app.use(morgan('dev'));
 
 
 app.use('/api/v1',appRouter)
+app.get('/api/v1', getAllGroups)
 
 export default app;

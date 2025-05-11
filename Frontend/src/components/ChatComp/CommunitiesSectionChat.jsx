@@ -15,10 +15,11 @@ import {
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { UserDataContext } from "../../contexts/userContext";
-import ScrollableCard from "./ScrollableCard";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import DefaultTextComp from "./DefaultTextComp";
+import ChattingInterface from "./ChattingInterface";
 import { useStartupsData } from "../../contexts/GroupContext";
 
 const drawerWidth = 240;
@@ -62,20 +63,16 @@ const zincTheme = createTheme({
   },
 });
 
-// Removed from the top level and moved inside the component
-
-export default function StartupsSidebar() {
+export default function StartupsChatSidebar() {
+  const navigate = useNavigate();
+  const { startupName: selectedStartup } = useParams();
   const { user } = React.useContext(UserDataContext);
   const [joinedStartups, setJoinedStartups] = React.useState([]);
   const { startupsData } = useStartupsData();
   const joinedGroupIds = new Set(joinedStartups.map((s) => s.groupId));
- 
-  
-
-  const navigate = useNavigate();
 
   const handleJoin = async (startup) => {
-    if (joinedStartups.includes(startup.name)) return;
+    if (joinedGroupIds.has(startup._id)) return;
 
     try {
       const res = await fetch(
@@ -86,20 +83,29 @@ export default function StartupsSidebar() {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
+            group: startup._id,
             user: user._id,
-            group: startup._id, // ✅ Correct: Send the ObjectId
           }),
         }
       );
 
       if (res.ok) {
-        window.location.reload();
-        setJoinedStartups((prev) => [startup.name, ...prev]);
+        setJoinedStartups((prev) => [
+          {
+            name: startup.name,
+            bgColor: startup.bgColor,
+            groupId: startup._id,
+          },
+          ...prev,
+        ]);
+        toast.success(`Joined ${startup.name}`);
       } else {
-        toast.error("Already joined group");
+        const data = await res.json();
+        toast.error(data.message || "Already joined group");
       }
     } catch (error) {
       console.log("Error:", error);
+      toast.error("Something went wrong!");
     }
   };
 
@@ -121,8 +127,9 @@ export default function StartupsSidebar() {
 
       if (res.ok) {
         setJoinedStartups((prev) =>
-          prev.filter((name) => name.name !== startup.name)
+          prev.filter((s) => s.groupId !== startup._id)
         );
+        navigate("/Chat");
       } else {
         console.log("Failed to leave group");
       }
@@ -139,10 +146,8 @@ export default function StartupsSidebar() {
         );
         const data = await res.json();
 
-        // Map through the group IDs and match with the startupsData to get the full details (name and bgColor)
         const joinData = data
           .map((group) => {
-            // Find the startup object that matches the group ID
             const startup = startupsData.find(
               (startup) => startup._id === group.group
             );
@@ -150,20 +155,17 @@ export default function StartupsSidebar() {
               return {
                 name: startup.name,
                 bgColor: startup.bgColor,
-                groupId: group.group, // You can keep the group ID if needed
+                groupId: group.group,
               };
             }
-            return null; // If no match is found
+            return null;
           })
-          .filter(Boolean); // Remove any null values if a match is not found
-
-        // Set the joined startups data to state
+          .filter(Boolean);
         setJoinedStartups(joinData);
       } catch (error) {
         console.error("Failed to fetch joined startups:", error);
       }
     };
-
     if (user?._id) {
       fetchJoinedStartups();
     }
@@ -212,7 +214,6 @@ export default function StartupsSidebar() {
 
           <Divider sx={{ mt: 2 }} />
 
-          {/* Joined Startups */}
           {joinedStartups.length > 0 && (
             <Box sx={{ p: 2 }}>
               <Typography variant="h6" sx={{ mb: 2 }}>
@@ -221,13 +222,14 @@ export default function StartupsSidebar() {
                 Click on it to chat :
               </Typography>
               <List>
-                {joinedStartups.map((startupName, index) => {
+                {joinedStartups.map((startupInfo, index) => {
                   const startup = startupsData.find(
-                    (s) => s.name === startupName.name
+                    (s) => s.name === startupInfo.name
                   );
                   return (
                     <ListItem key={index} disablePadding>
                       <ListItemButton
+                        onClick={() => handleChatNavigate(startupInfo.name)}
                         sx={{
                           borderRadius: 2,
                           background:
@@ -249,8 +251,6 @@ export default function StartupsSidebar() {
                       >
                         <Box sx={{ display: "flex", alignItems: "center" }}>
                           <Avatar
-                          onClick={()=> handleChatNavigate(startupName.name)}
-
                             sx={{
                               backgroundColor: startup?.bgColor || "#3b82f6",
                               marginRight: 2,
@@ -260,7 +260,7 @@ export default function StartupsSidebar() {
                           >
                             {startup?.name?.[0]}
                           </Avatar>
-                          <ListItemText primary={startupName.name} />
+                          <ListItemText primary={startupInfo.name} />
                         </Box>
                         <Button
                           onClick={() => handleLeave(startup)}
@@ -286,7 +286,6 @@ export default function StartupsSidebar() {
 
           <Divider />
 
-          {/* Suggested Startups (Filtered) */}
           <List sx={{ pt: 2 }}>
             {startupsData
               .filter((startup) => !joinedGroupIds.has(startup._id))
@@ -334,24 +333,11 @@ export default function StartupsSidebar() {
 
           <Divider />
         </Drawer>
-
-        {/* Main Content */}
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1, // Adjusted margin to reduce the space
-            height: "100vh",
-            overflowY: "scroll",
-            scrollSnapType: "y mandatory",
-            backgroundColor: "background.default",
-          }}
-        >
-          <ScrollableCard
-  joinedStartups={joinedStartups}
-  setJoinedStartups={setJoinedStartups}
-/>
-
-        </Box>
+        {selectedStartup ? (
+          <ChattingInterface selectedStartup={selectedStartup} />
+        ) : (
+          <DefaultTextComp />
+        )}
       </Box>
     </ThemeProvider>
   );
