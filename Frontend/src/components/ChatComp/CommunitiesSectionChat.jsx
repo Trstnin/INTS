@@ -260,7 +260,10 @@ export default function StartupsChatSidebar() {
                           >
                             {startup?.name?.[0]}
                           </Avatar>
-                          <ListItemText primary={startupInfo.name} />
+                          <ListItemText
+                            primary={`In/${startupInfo.name}`}
+                            primaryTypographyProps={{ fontSize: "12px" }}
+                          />
                         </Box>
                         <Button
                           onClick={() => handleLeave(startup)}

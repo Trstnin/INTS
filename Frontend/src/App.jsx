@@ -9,6 +9,7 @@ import UserProtectedRoute from "./components/ProtectedRoutes/UserProtectedRoute"
 import UserLogout from "./pages/UserLogout";
 import Chat from "./pages/Chat";
 import ChatDefault from "./pages/ChatDefault";
+import DetailedPage from "./pages/DetailedPage";
 
 const App = () => {
   return (
@@ -50,6 +51,15 @@ const App = () => {
           element={
             <UserProtectedRoute>
               <ChatDefault />
+            </UserProtectedRoute>
+          }
+        ></Route>
+
+         <Route
+          path="/Details/:startupId"
+          element={
+            <UserProtectedRoute>
+              <DetailedPage />
             </UserProtectedRoute>
           }
         ></Route>

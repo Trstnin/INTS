@@ -5,6 +5,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { UserDataContext } from "../../contexts/userContext";
 import { useStartupsData } from "../../contexts/GroupContext";
+import { useNavigate } from "react-router-dom";
+
 
 
 function shuffledArray(array){
@@ -19,6 +21,7 @@ function shuffledArray(array){
 
 
 const ScrollableCard = ({ joinedStartups, setJoinedStartups }) => {
+  const navigate = useNavigate()
   const { user } = useContext(UserDataContext);
   const [index, setIndex] = useState(0);
   const [startups, setStartups] = useState([]);
@@ -180,6 +183,24 @@ const ScrollableCard = ({ joinedStartups, setJoinedStartups }) => {
             onClick={() => window.open(startup.website, "_blank")}
           >
             Visit Website
+          </Button>
+        </Box>
+
+
+          <Box textAlign="center" marginTop="10px">
+          <Button
+            variant="contained"
+            sx={{
+              px: 4,
+              py: 1.5,
+              fontSize: "1rem",
+              borderRadius: "12px",
+              background: "green",
+              color: "#fff",
+            }}
+            onClick={() => navigate(`/Details/${startup._id}`)}
+          >
+            View more Details
           </Button>
         </Box>
       </Box>
