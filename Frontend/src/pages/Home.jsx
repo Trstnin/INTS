@@ -7,7 +7,6 @@ import PopupPreferenceName from '../components/Popup/PopupPreferenceName'
 
 
 const Home = () => {
-
   const [showNamePopup, setShowNamePopup] = useState(false)
   const { user, setUser } = useContext(UserDataContext)
    
@@ -23,33 +22,26 @@ const Home = () => {
               },
             }
           );
-          
-          // Show popup if no preference name exists
           if (!response.data.preferenceName) {
             setShowNamePopup(true);
           }
-    
         } catch (error) {
           console.error('Error checking preference name:', error);
         }
       }
     };
-
     checkPreferenceName();
   }, [user])
 
   return (
-  <div className='bg-zinc-800 h-screen w-full'>
-   {showNamePopup && (
-     <PopupPreferenceName 
-       setShowNamePopup={setShowNamePopup} 
-       setUser={setUser}
-     />
-   )}
-   <Navbar />
-   <CommunitiesSection />
-  </div>
-     )
+    <div className='bg-zinc-800 min-h-screen'>
+      {showNamePopup && (
+        <PopupPreferenceName setShowNamePopup={setShowNamePopup} setUser={setUser} />
+      )}
+      <Navbar />
+      <CommunitiesSection />
+    </div>
+  )
 }
 
 export default Home

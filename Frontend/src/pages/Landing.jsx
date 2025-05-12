@@ -1,9 +1,9 @@
 import React from "react";
 
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-import HeroSection from "../components/HeroSection";
-import Feedback from "../components/Feedback";
+import Header from "../components/LandingComp/Header";
+import Footer from "../components/LandingComp/Footer";
+import HeroSection from "../components/LandingComp/HeroSection";
+import Feedback from "../components/LandingComp/Feedback";
 
 const Landing = () => {
   return (

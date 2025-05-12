@@ -4,7 +4,7 @@ import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Headerforlogin from "../components/Headersforlogin";
-import Footer from "../components/Footer";
+import Footer from "../components/LandingComp/Footer";
 
 const Register = () => {
   const navigate = useNavigate();

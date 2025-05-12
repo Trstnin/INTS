@@ -20,6 +20,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import { useStartupsData } from "../../contexts/GroupContext";
+import ValidateIdeaBtn from "./ValidateIdeaBtn";
 
 const drawerWidth = 240;
 
@@ -62,14 +63,11 @@ const zincTheme = createTheme({
   },
 });
 
-// Removed from the top level and moved inside the component
-
 export default function StartupsSidebar() {
   const { user } = React.useContext(UserDataContext);
   const [joinedStartups, setJoinedStartups] = React.useState([]);
   const { startupsData } = useStartupsData();
   const joinedGroupIds = new Set(joinedStartups.map((s) => s.groupId));
-
   const navigate = useNavigate();
 
   const handleJoin = async (startup) => {
@@ -183,16 +181,12 @@ export default function StartupsSidebar() {
             flexShrink: 0,
             "& .MuiDrawer-paper": {
               width: drawerWidth,
-              boxSizing: "border-box",
               height: "100vh",
               position: "fixed",
-              top: 0,
               backgroundColor: "background.default",
               borderRight: "1px solid rgba(255, 255, 255, 0.05)",
               boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
               overflowY: "scroll",
-              overflowX: "hidden",
-              scrollbarWidth: "none",
               "&::-webkit-scrollbar": { display: "none" },
             },
           }}
@@ -335,14 +329,12 @@ export default function StartupsSidebar() {
           <Divider />
         </Drawer>
 
-        {/* Main Content */}
         <Box
           component="main"
           sx={{
-            flexGrow: 1, // Adjusted margin to reduce the space
+            flexGrow: 1,
             height: "100vh",
             overflowY: "scroll",
-            scrollSnapType: "y mandatory",
             backgroundColor: "background.default",
           }}
         >
@@ -351,6 +343,8 @@ export default function StartupsSidebar() {
             setJoinedStartups={setJoinedStartups}
           />
         </Box>
+
+        <ValidateIdeaBtn />
       </Box>
     </ThemeProvider>
   );

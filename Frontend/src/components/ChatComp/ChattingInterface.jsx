@@ -1,10 +1,105 @@
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { Avatar, Box, Button, Typography } from "@mui/material";
-import React from "react";
+import { useSocket } from "../../utils/socket";
+import { useStartupsData } from "../../contexts/GroupContext";
+import { UserDataContext } from "../../contexts/userContext";
 
 const ChattingInterface = ({ selectedStartup }) => {
-  const groupName = selectedStartup;
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const messagesEndRef = useRef(null);
   const groupLogo =
     "https://upload.wikimedia.org/wikipedia/commons/0/04/OpenAI_Logo.svg";
+
+  const { startupsData } = useStartupsData();
+  const { user } = useContext(UserDataContext);
+  const socket = useSocket();
+
+  const group = startupsData.find(
+    (startup) => startup.name === selectedStartup
+  );
+  const groupName = group?.name;
+
+  useEffect(() => {
+    if (!socket || !group?._id) return;
+
+    const token = localStorage.getItem("token");
+
+    // Fetch previous messages
+    const fetchMessages = async () => {
+      try {
+        const res = await fetch(
+          `${import.meta.env.VITE_BASE_URL}/message/${group._id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (!res.ok) throw new Error("Failed to fetch messages");
+        const data = await res.json();
+        setMessages(data);
+      } catch (error) {
+        console.error("Failed to fetch messages:", error);
+      }
+    };
+
+    fetchMessages();
+
+    // Join room
+    socket.emit("join-room", group._id);
+
+    // Listen for new messages
+    const handleNewMessage = (newMessage) => {
+      setMessages((prev) => [...prev, newMessage]);
+    };
+
+    socket.on("receive-message", handleNewMessage);
+
+    return () => {
+      socket.off("receive-message", handleNewMessage);
+    };
+  }, [socket, group?._id]);
+
+  // Scroll to bottom on new message
+  useEffect(() => {
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [messages]);
+
+  const sendMessage = async () => {
+    if (!message.trim()) return;
+
+    const token = localStorage.getItem("token");
+
+    const payload = {
+      group: group._id,
+      sender: user._id,
+      text: message,
+    };
+
+    setMessage(""); // Clear the input immediately
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_BASE_URL}/message`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) throw new Error("Error sending message");
+
+      // Do NOT manually update messages here; wait for Socket.IO to emit "receive-message"
+      // const data = await res.json(); <- this is not needed for UI update
+    } catch (error) {
+      console.error("Failed to send message:", error);
+    }
+  };
 
   return (
     <Box
@@ -42,6 +137,7 @@ const ChattingInterface = ({ selectedStartup }) => {
           sx={{ width: 48, height: 48, mx: "auto", mt: 1 }}
         />
       </Box>
+
       {/* Message Area */}
       <Box
         sx={{
@@ -52,40 +148,54 @@ const ChattingInterface = ({ selectedStartup }) => {
           flexDirection: "column",
           gap: 1.5,
           overflowY: "auto",
-          scrollbarWidth: "none", //firefox
-          "&::-webkit-scrollbar": { display: "none" }, //chrome
+          scrollbarWidth: "none",
+          "&::-webkit-scrollbar": { display: "none" },
         }}
       >
-        {/* Example Message */}
-        <Box
-          sx={{
-            alignSelf: "flex-start",
-            backgroundColor: "#334155",
-            color: "white",
-            px: 1.5,
-            py: 0.8,
-            borderRadius: 2,
-            maxWidth: "70%",
-          }}
-        >
-          Hello, welcome to the group !
-        </Box>
-        <Box
-          sx={{
-            alignSelf: "flex-end",
-            backgroundColor: "#3b82f6",
-            color: "white",
-            px: 1.5,
-            py: 0.8,
-            borderRadius: 2,
-            maxWidth: "70%",
-          }}
-        >
-          Thanks! Excited to be here.
-        </Box>
+        {messages.map((msg) => (
+          <Box
+            key={`${msg._id}-${msg.createdAt}`}
+            sx={{
+              alignSelf:
+                msg.sender === user._id || msg.sender?._id === user._id
+                  ? "flex-end"
+                  : "flex-start",
+              backgroundColor:
+                msg.sender === user._id || msg.sender?._id === user._id
+                  ? "#3b82f6"
+                  : "#334155",
+              color: "white",
+              px: 1.5,
+              py: 0.8,
+              borderRadius: 2,
+              maxWidth: "70%",
+              wordBreak: "break-word",
+              display: "flex",
+              flexDirection: "column",
+              alignItems:
+                msg.sender === user._id || msg.sender?._id === user._id
+                  ? "flex-end"
+                  : "flex-start",
+            }}
+          >
+            <Typography sx={{ fontSize: 14, whiteSpace: "pre-wrap" }}>
+              {msg.text}
+            </Typography>
+            {/* Message seen indicator */}
+            {msg.seen && (
+              <Typography
+                sx={{ fontSize: 10, color: "gray", textAlign: "right" }}
+              >
+                Seen
+              </Typography>
+            )}
+          </Box>
+        ))}
+
+        <Box ref={messagesEndRef} />
       </Box>
 
-      {/* Input Field  */}
+      {/* Input */}
       <Box
         sx={{
           px: 2,
@@ -99,6 +209,9 @@ const ChattingInterface = ({ selectedStartup }) => {
       >
         <input
           type="text"
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && sendMessage()}
           placeholder="Type your message...."
           style={{
             flexGrow: 1,
@@ -112,9 +225,16 @@ const ChattingInterface = ({ selectedStartup }) => {
         />
 
         <Button
+          onClick={sendMessage}
           variant="contained"
           color="primary"
-          sx={{ textTransform: "none", borderRadius: "10px", fontSize: 12 }}
+          sx={{
+            textTransform: "none",
+            borderRadius: "10px",
+            fontSize: 12,
+            minWidth: "50px",
+            maxWidth: "80px",
+          }}
         >
           Send
         </Button>

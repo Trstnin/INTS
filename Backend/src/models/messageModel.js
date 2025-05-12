@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 
 const messageSchema = new mongoose.Schema({
-    startupId: {
+    group: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'Group',
+        ref:'joinedGroup',
         required: true,
     },
     sender: {
@@ -11,7 +11,7 @@ const messageSchema = new mongoose.Schema({
         ref:'user', //who sent the message
         required:true,
     },
-    messageContent: {
+    text: {
         type:String,
         required:true,
     },

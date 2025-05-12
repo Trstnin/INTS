@@ -10,6 +10,7 @@ import UserLogout from "./pages/UserLogout";
 import Chat from "./pages/Chat";
 import ChatDefault from "./pages/ChatDefault";
 import DetailedPage from "./pages/DetailedPage";
+import ValidateIdea from "./pages/ValidateIdea";
 
 const App = () => {
   return (
@@ -71,7 +72,17 @@ const App = () => {
             <h1 className="text-center text-white">404 - Page Not Found</h1>
           }
         />
+
+       <Route
+          path="/validateIdea"
+          element={
+            <UserProtectedRoute>
+              <ValidateIdea />
+            </UserProtectedRoute>
+          }
+        ></Route>
       </Routes>
+
     </>
   );
 };

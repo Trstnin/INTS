@@ -89,7 +89,7 @@ const ScrollableCard = ({ joinedStartups, setJoinedStartups }) => {
   return (
 <Box
   sx={{
-    backgroundColor: "#18181B",
+    backgroundColor: "#27272A",
     minHeight: "100vh",
     overflow: "hidden", // Hide both horizontal and vertical scrollbars
     py: 6,
