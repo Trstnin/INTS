@@ -11,10 +11,11 @@ const UserContext = ({children}) => {
         avatarUrl:""
      })
 
+     const[preferenceName, setPreferenceName] = useState("");
 
      return(
         <div>
-            <UserDataContext.Provider value={{user,setUser}}>
+            <UserDataContext.Provider value={{user,setUser,preferenceName,setPreferenceName}}>
                 {children}
             </UserDataContext.Provider>
         </div>

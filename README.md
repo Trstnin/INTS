@@ -1,89 +1,76 @@
 # Into StartUps 🚀
 
-A modern platform connecting startup enthusiasts, providing resources, and facilitating learning in the startup ecosystem.
+A comprehensive platform for startup discovery, community engagement, and idea validation with real-time features.
 
-## ✨ Key Features
+## ✨ Core Features
 
-- Startup Community Discovery System
-- Interactive Card Swiping Interface
-- Real-time Group Management
-- Custom Username Generation
-- OAuth2 Authentication with Google
-- Secure JWT-based Sessions
-- Glass Morphism Design System
-- Cross-platform Responsiveness
+### 1. Community System
+- Interactive Tinder-style startup discovery
+- Real-time group chat functionality
+- Dynamic community management
+- Startup details and analytics
+
+### 2. Authentication & Security
+- Google OAuth2 integration
+- JWT token management
+- Secure session handling
+- Custom preference names
+
+### 3. Real-time Features
+- Live messaging system
+- Group chat rooms
+- Online user status
+- Message notifications
+
+### 4. AI Integration
+- Startup idea validation
+- Real-time AI feedback
+- Professional analysis
+- Interactive chat interface
 
 ## 🛠️ Technology Stack
 
 ### Frontend
-- React 18
-- Vite 5
-- Tailwind CSS 3
-- React Router 6
-- Axios 1.x
-- React Icons
-- React Toastify
-- Auth0 React SDK
+```json
+{
+  "core": {
+    "react": "^18.0.0",
+    "vite": "^5.0.0",
+    "material-ui": "^7.1.0",
+    "socket.io-client": "^4.8.1"
+  },
+  "features": {
+    "react-tinder-card": "^1.6.4",
+    "react-toastify": "^11.0.5",
+    "axios": "^1.9.0",
+    "react-spring": "^9.7.5"
+  }
+}
+```
 
 ### Backend
-- Node.js 18+
-- Express 4.x
-- MongoDB 6.x
-- Mongoose 7.x
-- JSON Web Tokens
-- OAuth2 
-- Express Validator
-- Nodemailer
-
-### Additional Features
-- React Tinder Card
-- Material UI Components
-- Custom Animation Effects
-- Real-time Group Management
-- Dynamic Card Swiping
-
-## 🚀 Quick Start
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/INTS.git
-cd INTS
+```json
+{
+  "core": {
+    "node": "^18.0.0",
+    "express": "^5.1.0",
+    "mongodb": "^6.0.0",
+    "socket.io": "^4.8.1"
+  },
+  "security": {
+    "jsonwebtoken": "^9.0.2",
+    "bcrypt": "^5.1.1",
+    "express-validator": "^7.2.1"
+  },
+  "features": {
+    "nodemailer": "^7.0.2",
+    "cookie-parser": "^1.4.7",
+    "morgan": "^1.10.0"
+  }
+}
 ```
 
-2. Set up environment variables:
-```bash
-# Frontend (.env)
-VITE_BASE_URL=http://localhost:3000/api/v1
-
-# Backend (.env)
-PORT=3000
-MONGODB_URI=your_mongodb_uri
-JWT_SECRET=your_jwt_secret
-SMTP_USER=your_smtp_host
-SMTP_PORT=your_smtp_port
-SMTP_LOGIN=your_smtp_login
-SMTP_PASS=your_smtp_password
-SENDER_EMAIL=your_sender_email
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-GOOGLE_REDIRECT_URI=http://localhost:3000/api/v1/auth/google/callback
-```
-
-3. Start the backend:
-```bash
-cd Backend
-npm install
-npm run dev
-```
-
-4. Start the frontend:
-```bash
-cd Frontend
-npm install
-npm run dev
-```
-
-## 📁 Project Structure
+## 📁 Project Architecture
 ```
 INTS/
 ├── Frontend/                

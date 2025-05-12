@@ -7,8 +7,7 @@ import { UserDataContext } from '../../contexts/userContext';
 import { Link } from 'react-router-dom';
 
 export default function ProfileDropDown() {
-  const { user } = React.useContext(UserDataContext);
-  const [preferenceName, setPreferenceName] = React.useState("");
+  const { user, preferenceName, setPreferenceName } = React.useContext(UserDataContext);
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -33,7 +32,7 @@ export default function ProfileDropDown() {
     };
 
     fetchPreferenceName();
-  }, []); // Empty dependency array means it will run only once on mount
+  }, [setPreferenceName]);
 
   // Handle dropdown menu
   const handleClick = (event) => {
@@ -63,7 +62,7 @@ export default function ProfileDropDown() {
             />
           </div>
             {preferenceName && (
-            <span className="text-green-500 text-sm font-medium">
+            <span className="text-blue-300 text-sm font-medium">
               {preferenceName}
             </span>
           )}

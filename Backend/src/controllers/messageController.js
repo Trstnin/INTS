@@ -18,7 +18,6 @@ export const sendMessage = async (req, res) => {
 
     // Emit the message using Socket.IO
     const io = req.app.get('io');
-    console.log(io)
     if (io) {
       io.to(group).emit('receive-message', {
         _id: message._id,

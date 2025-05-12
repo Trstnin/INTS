@@ -3,6 +3,7 @@ import { Avatar, Box, Button, Typography } from "@mui/material";
 import { useSocket } from "../../utils/socket";
 import { useStartupsData } from "../../contexts/GroupContext";
 import { UserDataContext } from "../../contexts/userContext";
+import dayjs from "dayjs"; // To format timestamps
 
 const ChattingInterface = ({ selectedStartup }) => {
   const [message, setMessage] = useState("");
@@ -12,7 +13,8 @@ const ChattingInterface = ({ selectedStartup }) => {
     "https://upload.wikimedia.org/wikipedia/commons/0/04/OpenAI_Logo.svg";
 
   const { startupsData } = useStartupsData();
-  const { user } = useContext(UserDataContext);
+  const { user, preferenceName } = useContext(UserDataContext);
+
   const socket = useSocket();
 
   const group = startupsData.find(
@@ -93,9 +95,6 @@ const ChattingInterface = ({ selectedStartup }) => {
       });
 
       if (!res.ok) throw new Error("Error sending message");
-
-      // Do NOT manually update messages here; wait for Socket.IO to emit "receive-message"
-      // const data = await res.json(); <- this is not needed for UI update
     } catch (error) {
       console.error("Failed to send message:", error);
     }
@@ -152,45 +151,89 @@ const ChattingInterface = ({ selectedStartup }) => {
           "&::-webkit-scrollbar": { display: "none" },
         }}
       >
-        {messages.map((msg) => (
-          <Box
-            key={`${msg._id}-${msg.createdAt}`}
-            sx={{
-              alignSelf:
-                msg.sender === user._id || msg.sender?._id === user._id
-                  ? "flex-end"
-                  : "flex-start",
-              backgroundColor:
-                msg.sender === user._id || msg.sender?._id === user._id
-                  ? "#3b82f6"
-                  : "#334155",
-              color: "white",
-              px: 1.5,
-              py: 0.8,
-              borderRadius: 2,
-              maxWidth: "70%",
-              wordBreak: "break-word",
-              display: "flex",
-              flexDirection: "column",
-              alignItems:
-                msg.sender === user._id || msg.sender?._id === user._id
-                  ? "flex-end"
-                  : "flex-start",
-            }}
-          >
-            <Typography sx={{ fontSize: 14, whiteSpace: "pre-wrap" }}>
-              {msg.text}
-            </Typography>
-            {/* Message seen indicator */}
-            {msg.seen && (
-              <Typography
-                sx={{ fontSize: 10, color: "gray", textAlign: "right" }}
+        {messages.map((msg) => {
+          const isOwnMessage =
+            msg.sender === user._id || msg.sender?._id === user._id;
+          const senderName = isOwnMessage
+            ? preferenceName
+            : msg.sender?.name || "Anonymous";
+          const senderAvatar = isOwnMessage
+            ? user.avatarUrl || groupLogo
+            : msg.sender?.avatarUrl || groupLogo;
+
+          return (
+            <Box
+              key={`${msg._id}-${msg.createdAt}`}
+              sx={{
+                display: "flex",
+                flexDirection: isOwnMessage ? "row-reverse" : "row",
+                alignItems: "flex-start",
+                gap: 1.5,
+                px: 1,
+              }}
+            >
+              {/* Avatar */}
+              <Avatar
+                src={senderAvatar}
+                alt={senderName}
+                sx={{ width: 32, height: 32 , mt:'25px'}}
+              />
+
+              <Box
+                sx={{
+                  maxWidth: "75%",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: isOwnMessage ? "flex-end" : "flex-start",
+                }}
               >
-                Seen
-              </Typography>
-            )}
-          </Box>
-        ))}
+                {/* Sender Name */}
+                <Typography
+                  sx={{
+                    fontSize: 12,
+                    color: "gray",
+                    fontWeight: 600,
+                    mb: 0.5,
+                  }}
+                >
+                  {senderName}
+                </Typography>
+
+                {/* Message Bubble */}
+                <Box
+                  sx={{
+                    backgroundColor: isOwnMessage ? "#3b82f6" : "#1f2937",
+                    color: "white",
+                    px: 2,
+                    py: 1.2,
+                    borderRadius: 3,
+                    borderTopLeftRadius: isOwnMessage ? 12 : 0,
+                    borderTopRightRadius: isOwnMessage ? 0 : 12,
+                    boxShadow: "0px 2px 6px rgba(0,0,0,0.3)",
+                    whiteSpace: "pre-wrap",
+                    wordBreak: "break-word",
+                  }}
+                >
+                  <Typography sx={{ fontSize: 14, lineHeight: 1.5 }}>
+                    {msg.text}
+                  </Typography>
+                </Box>
+
+                {/* Timestamp */}
+                <Typography
+                  sx={{
+                    fontSize: 10,
+                    color: "#9ca3af",
+                    mt: 0.5,
+                    fontStyle: "italic",
+                  }}
+                >
+                  {dayjs(msg.createdAt).format("HH:mm A")}
+                </Typography>
+              </Box>
+            </Box>
+          );
+        })}
 
         <Box ref={messagesEndRef} />
       </Box>
@@ -221,6 +264,7 @@ const ChattingInterface = ({ selectedStartup }) => {
             color: "white",
             border: "none",
             outline: "none",
+            fontSize: "14px",
           }}
         />
 

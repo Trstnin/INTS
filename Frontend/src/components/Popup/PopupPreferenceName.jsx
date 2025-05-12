@@ -3,11 +3,14 @@ import { UserDataContext } from '../../contexts/userContext'
 import { GiRegeneration } from "react-icons/gi"
 import { GiCelebrationFire } from "react-icons/gi"
 import axios from 'axios'
+import nameJson from '../../assets/names.json'
 
 const PopupPreferenceName = ({ setShowNamePopup, setUser }) => {
-  const { user } = useContext(UserDataContext)
+  const { user} = useContext(UserDataContext)
   const [showGenerateName, setShowGenerateName] = useState(false)
-  const [generatedName, setGeneratedName] = useState('John Snow')
+  const [generatedName, setGeneratedName] = useState(user.FirstName)
+  
+ const names = nameJson.usernames
 
   const savePreferenceName = async (name) => {
     try {
@@ -35,10 +38,9 @@ const PopupPreferenceName = ({ setShowNamePopup, setUser }) => {
   }
 
   const handleRegenerateName = () => {
-    // You can replace this with an actual random name generator or fetch from backend
-    const names = ["PixelPhantom", "CodeNinja", "QuantumFox", "NightWalker", "EchoRider"]
     const randomName = names[Math.floor(Math.random() * names.length)]
-    setGeneratedName(randomName)
+    setGeneratedName(randomName.toLowerCase())
+
   }
 
   const handleFinish = async () => {
@@ -66,6 +68,8 @@ const PopupPreferenceName = ({ setShowNamePopup, setUser }) => {
       console.error('Error saving preference name:', error);
     }
   };
+
+  
 
   return (
     <>
@@ -114,7 +118,7 @@ const PopupPreferenceName = ({ setShowNamePopup, setUser }) => {
                     className='bg-blue-400 p-2 px-4 rounded-xl cursor-pointer flex hover:bg-blue-500'
                     onClick={handleRegenerateName}
                   >
-                    <h1 className='text-zinc-900'>Re-Generate</h1>
+                    <h1 className='text-zinc-900'>Generate</h1>
                     <GiRegeneration className='text-black ml-2 text-2xl' />
                   </button>
                   <button
