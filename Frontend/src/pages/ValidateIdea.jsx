@@ -53,7 +53,6 @@ const ValidateIdea = () => {
                 p:2,
                 mb:3,
                 backgroundColor:"#facc15",
-                borderLeft:"5px solid #ca8a04",
                 color:"#1c1917",
                 borderRadius:"10px",
                 fontSize:"0.9rem",
