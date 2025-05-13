@@ -14,7 +14,7 @@ const app = express();
 // Middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({ credentials: true, origin: 'http://localhost:5173' }));
+app.use(cors({ credentials: true, origin: 'https://ints-frontend.onrender.com' }));
 app.use(cookieParser());
 app.use(morgan('dev'));
 
@@ -28,7 +28,7 @@ const server = http.createServer(app);
 // Set up Socket.IO
 const io = new Server(server, {
   cors: {
-    origin: 'http://localhost:5173',
+    origin: 'https://ints-frontend.onrender.com',
     methods: ['GET', 'POST'],
   },
 });
