@@ -8,7 +8,7 @@ export const useSocket = () => {
 
   useEffect(() => {
     if (user?._id && !socketRef.current) {
-      socketRef.current = io('http://localhost:3000', {
+      socketRef.current = io('https://ints-backend.onrender.com', {
         query: { userId: user._id },
       });
 
